@@ -1,10 +1,11 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
+const app = express();
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const petRoutes = require("./routes/petRoutes");
 const petSubmissionRoutes = require("./routes/petSubmissionRoutes");
+const adoptionApplicationRoutes = require("./routes/adoptionApplicationRoutes");
 
 require("dotenv").config();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/pets", petRoutes);
 app.use("/pet-submissions", petSubmissionRoutes);
+app.use("/adoption-applications", adoptionApplicationRoutes);
 
 mongoose
     .connect("mongodb://localhost:27017/pawmatch")
