@@ -37,7 +37,6 @@ exports.register = async (req, res) => {
         res.status(201).json({
             message: "Registration successful",
         });
-
     } catch (error) {
         console.error("Register Error:", error);
 
@@ -88,7 +87,7 @@ exports.login = async (req, res) => {
             JWT_SECRET_KEY,
             {
                 expiresIn: "24h",
-            }
+            },
         );
 
         res.status(200).json({
@@ -101,7 +100,6 @@ exports.login = async (req, res) => {
                 role: user.role,
             },
         });
-
     } catch (error) {
         console.error("Login Error:", error);
 
@@ -112,3 +110,55 @@ exports.login = async (req, res) => {
     }
 };
 
+// =========================
+// GET ALL USERS
+// =========================
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({}).select("-password").sort({ createdAt: -1 });
+
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Get All Users Error:", error);
+
+        res.status(500).json({
+            message: "Failed to get users",
+        });
+    }
+};
+
+// =========================
+// DELETE USER
+// =========================
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        // Prevent deleting another admin
+        if (user.role === "admin") {
+            return res.status(403).json({
+                message: "Admin users cannot be deleted",
+            });
+        }
+
+        await User.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({
+            message: "User deleted successfully",
+        });
+    } catch (error) {
+        console.error("Delete User Error:", error);
+
+        res.status(500).json({
+            message: "Failed to delete user",
+        });
+    }
+};

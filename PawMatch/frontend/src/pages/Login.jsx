@@ -11,19 +11,28 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        // 💡 Add your login / authentication logic here
-        console.log("Form submitted:", { email, password });
         try {
             const response = await axios.post("http://localhost:3000/users/login", {
                 email,
                 password,
             });
+
             localStorage.setItem("token", response.data.token);
-            navigate("/home");
-            console.log(response.data);
+            localStorage.setItem("role", response.data.user.role);
+
+            console.log("Login Response:", response.data);
+
+            if (response.data.user.role === "admin") {
+                navigate("/admin/dashboard");
+            } else {
+                navigate("/home");
+            }
+
             alert("Login Successful!");
         } catch (error) {
-            console.log("Login Error: ", error);
+            console.log("Login Error:", error);
+
+            alert(error.response?.data?.message || "Login failed");
         }
     };
 
@@ -47,7 +56,7 @@ function Login() {
                 </button>
                 <p className="register-link">
                     Don't have an account? <Link to="/register">Register</Link>
-                </p> 
+                </p>
             </form>
         </div>
     );

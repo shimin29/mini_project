@@ -6,6 +6,13 @@ import Home from "./pages/Home";
 import SubmitPet from "./pages/SubmitPet";
 import AdminSubmissions from "./pages/AdminSubmissions";
 import Adopt from "./pages/Adopt";
+import AdminApplications from "./pages/AdminApplications";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminPets from "./pages/AdminPets";
+import AdminAddPet from "./pages/AdminAddPet";
+import AdminEditPet from "./pages/AdminEditPet";
+import AdminUsers from "./pages/AdminUsers";
+
 import "./App.css";
 
 function App() {
@@ -20,6 +27,12 @@ function App() {
                 <Route path="/submit-pet" element={<SubmitPet />} />
                 <Route path="/admin/submissions" element={<AdminSubmissions />} />
                 <Route path="/adopt/:petId" element={<Adopt />} />
+                <Route path="/admin/applications" element={<AdminApplications />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/pets" element={<AdminPets />} />
+                <Route path="/admin/pets/add" element={<AdminAddPet />} />
+                <Route path="/admin/pets/edit/:id" element={<AdminEditPet />} />
+                <Route path="/admin/users" element={<AdminUsers />} />
             </Routes>
         </BrowserRouter>
     );

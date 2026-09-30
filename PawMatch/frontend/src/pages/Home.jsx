@@ -1,14 +1,29 @@
+import { useNavigate } from "react-router";
+
 function Home() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+
     return (
         <div className="home-page">
             {/* Navbar */}
             <nav className="navbar">
-                <div className="logo">🐾 PawMatch</div>
+                <div className="logo-container">
+                    <div className="logo">🐾 PawMatch</div>
+                    <span className="nav-subtitle">Find. Match. Adopt.</span>
+                </div>
 
                 <div className="nav-links">
                     <a href="/home">Home</a>
                     <a href="/pet">Pets</a>
-                    <a href="/login">Logout</a>
+
+                    <button className="logout-btn" onClick={handleLogout}>
+                        Logout
+                    </button>
                 </div>
             </nav>
 

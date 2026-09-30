@@ -97,3 +97,87 @@ exports.getAllAdoptionApplications = async (req, res) => {
         });
     }
 };
+
+// APPROVE ADOPTION APPLICATION - ADMIN
+exports.approveAdoptionApplication = async (req, res) => {
+    try {
+        const application = await AdoptionApplication.findById(req.params.id);
+
+        if (!application) {
+            return res.status(404).json({
+                message: "Adoption application not found",
+            });
+        }
+
+        if (application.status !== "Pending") {
+            return res.status(400).json({
+                message: "This application has already been reviewed",
+            });
+        }
+
+        const pet = await Pet.findById(application.petId);
+
+        if (!pet) {
+            return res.status(404).json({
+                message: "Pet not found",
+            });
+        }
+
+        if (pet.adoptionStatus !== "Available") {
+            return res.status(400).json({
+                message: "This pet is no longer available for adoption",
+            });
+        }
+
+        // Approve application
+        application.status = "Approved";
+        await application.save();
+
+        // Mark pet as adopted
+        pet.adoptionStatus = "Adopted";
+        await pet.save();
+
+        res.status(200).json({
+            message: "Adoption application approved",
+        });
+    } catch (error) {
+        console.error("Approve Adoption Application Error:", error);
+
+        res.status(500).json({
+            message: "Failed to approve adoption application",
+        });
+    }
+};
+
+// REJECT ADOPTION APPLICATION - ADMIN
+exports.rejectAdoptionApplication = async (req, res) => {
+    try {
+        const application = await AdoptionApplication.findById(req.params.id);
+
+        if (!application) {
+            return res.status(404).json({
+                message: "Adoption application not found",
+            });
+        }
+
+        if (application.status !== "Pending") {
+            return res.status(400).json({
+                message: "This application has already been reviewed",
+            });
+        }
+
+        application.status = "Rejected";
+
+        await application.save();
+
+        res.status(200).json({
+            message: "Adoption application rejected",
+        });
+    } catch (error) {
+        console.error("Reject Adoption Application Error:", error);
+
+        res.status(500).json({
+            message: "Failed to reject adoption application",
+        });
+    }
+};

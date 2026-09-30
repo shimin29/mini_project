@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import "./Pet.css";
 
 function Pet() {
     const [pets, setPets] = useState([]);
@@ -52,55 +53,106 @@ function Pet() {
     }, []);
 
     if (loading) {
-        return <p>Loading pets...</p>;
+        return (
+            <div className="pet-page-loading">
+                <p>Loading pets...</p>
+            </div>
+        );
     }
 
     return (
-        <div>
-            <h1>Available Pets</h1>
+        <div className="pet-page">
+            {/* Header */}
+            <section className="pet-header">
+                <p className="section-small-title">FIND YOUR COMPANION</p>
 
-            {pets.length === 0 ? (
-                <p>No pets available.</p>
-            ) : (
-                <div>
-                    {pets.map((pet) => {
-                        // Find current user's application for this pet
-                        const application = applications.find((app) => app.petId?._id === pet._id);
+                <h1>
+                    Meet Your <span>New Best Friend</span>
+                </h1>
 
-                        return (
-                            <div key={pet._id}>
-                                <img src={pet.image} alt={pet.name} width="200" />
+                <p>Find a loving companion and give a pet a forever home.</p>
+            </section>
 
-                                <h2>{pet.name}</h2>
+            {/* Pets */}
+            <section className="pets-section">
+                {pets.length === 0 ? (
+                    <div className="no-pets">
+                        <h2>No pets available</h2>
+                        <p>There are currently no pets available for adoption.</p>
+                    </div>
+                ) : (
+                    <div className="pets-container">
+                        {pets.map((pet) => {
+                            const application = applications.find((app) => app.petId?._id === pet._id);
 
-                                <p>Type: {pet.type}</p>
+                            return (
+                                <div className="pet-card" key={pet._id}>
+                                    {/* Image */}
+                                    <div className="pet-image">
+                                        <img src={pet.image} alt={pet.name} />
+                                    </div>
 
-                                <p>Breed: {pet.breed}</p>
+                                    {/* Information */}
+                                    <div className="pet-info">
+                                        <div className="pet-title-row">
+                                            <h3>{pet.name}</h3>
 
-                                <p>Gender: {pet.gender}</p>
+                                            <span className={`status-badge ${pet.adoptionStatus.toLowerCase()}`}>{pet.adoptionStatus}</span>
+                                        </div>
 
-                                <p>Age: {pet.age}</p>
+                                        <p className="pet-breed">{pet.breed}</p>
 
-                                <p>Health: {pet.healthStatus}</p>
+                                        <div className="pet-details">
+                                            <span>🐾 {pet.type}</span>
 
-                                <p>Status: {pet.adoptionStatus}</p>
+                                            <span>🎂 {pet.age} years</span>
 
-                                {/* No application */}
-                                {!application && <button onClick={() => navigate(`/adopt/${pet._id}`)}>Adopt</button>}
+                                            <span>⚧ {pet.gender}</span>
+                                        </div>
 
-                                {/* Pending */}
-                                {application && application.status === "Pending" && <button disabled>Application Pending</button>}
+                                        <p className="pet-health">Health: {pet.healthStatus}</p>
 
-                                {/* Approved */}
-                                {application && application.status === "Approved" && <button disabled>Application Approved</button>}
+                                        {/* No application */}
+                                        {pet.adoptionStatus === "Available" && !application && (
+                                            <button className="pet-btn" onClick={() => navigate(`/adopt/${pet._id}`)}>
+                                                Adopt
+                                            </button>
+                                        )}
 
-                                {/* Rejected */}
-                                {application && application.status === "Rejected" && <button onClick={() => navigate(`/adopt/${pet._id}`)}>Apply Again</button>}
-                            </div>
-                        );
-                    })}
-                </div>
-            )}
+                                        {/* Pending */}
+                                        {pet.adoptionStatus === "Available" && application && application.status === "Pending" && (
+                                            <button className="pet-btn disabled" disabled>
+                                                Application Pending
+                                            </button>
+                                        )}
+
+                                        {/* Approved */}
+                                        {application && application.status === "Approved" && (
+                                            <button className="pet-btn approved" disabled>
+                                                Application Approved
+                                            </button>
+                                        )}
+
+                                        {/* Rejected */}
+                                        {pet.adoptionStatus === "Available" && application && application.status === "Rejected" && (
+                                            <button className="pet-btn" onClick={() => navigate(`/adopt/${pet._id}`)}>
+                                                Apply Again
+                                            </button>
+                                        )}
+
+                                        {/* Adopted */}
+                                        {pet.adoptionStatus === "Adopted" && !application && (
+                                            <button className="pet-btn adopted" disabled>
+                                                Adopted
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </section>
         </div>
     );
 }
