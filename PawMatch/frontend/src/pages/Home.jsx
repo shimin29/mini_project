@@ -1,7 +1,31 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 
 function Home() {
     const navigate = useNavigate();
+
+    const [pets, setPets] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchPets = async () => {
+        try {
+            const response = await axios.get("http://localhost:3000/pets");
+
+            console.log("Pets:", response.data);
+
+            setPets(response.data);
+        } catch (error) {
+            console.log("Get Pets Error:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPets();
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -11,21 +35,7 @@ function Home() {
     return (
         <div className="home-page">
             {/* Navbar */}
-            <nav className="navbar">
-                <div className="logo-container">
-                    <div className="logo">🐾 PawMatch</div>
-                    <span className="nav-subtitle">Find. Match. Adopt.</span>
-                </div>
-
-                <div className="nav-links">
-                    <a href="/home">Home</a>
-                    <a href="/pet">Pets</a>
-
-                    <button className="logout-btn" onClick={handleLogout}>
-                        Logout
-                    </button>
-                </div>
-            </nav>
+            <Navbar role="user" />
 
             {/* Hero Section */}
             <section className="hero">
@@ -99,45 +109,31 @@ function Home() {
 
                     <p>Meet some adorable pets waiting for their perfect match.</p>
                 </div>
-
                 <div className="pets-container">
-                    <div className="pet-card">
-                        <div className="pet-image">🐶</div>
+                    {loading ? (
+                        <p>Loading pets...</p>
+                    ) : pets.length === 0 ? (
+                        <p>No pets available.</p>
+                    ) : (
+                        pets.slice(0, 3).map((pet) => (
+                            <div className="pet-card" key={pet._id}>
+                                <div className="pet-image">
+                                    <img src={pet.image} alt={pet.name} />
+                                </div>
 
-                        <div className="pet-info">
-                            <h3>Buddy</h3>
+                                <div className="pet-info">
+                                    <h3>{pet.name}</h3>
 
-                            <p>Golden Retriever · 2 years</p>
+                                    <p>
+                                        {pet.breed} · {pet.age} years
+                                    </p>
 
-                            {/* <button>View Profile</button> */}
-                        </div>
-                    </div>
-
-                    <div className="pet-card">
-                        <div className="pet-image">🐱</div>
-
-                        <div className="pet-info">
-                            <h3>Luna</h3>
-
-                            <p>British Shorthair · 1 year</p>
-
-                            {/* <button>View Profile</button> */}
-                        </div>
-                    </div>
-
-                    <div className="pet-card">
-                        <div className="pet-image">🐰</div>
-
-                        <div className="pet-info">
-                            <h3>Coco</h3>
-
-                            <p>Holland Lop · 8 months</p>
-
-                            {/* <button>View Profile</button> */}
-                        </div>
-                    </div>
+                                    <button onClick={() => navigate(`/adopt/${pet._id}`)}>View Profile</button>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
-
                 <div className="view-all-container">
                     <a href="/pet" className="view-all-btn">
                         View All Pets

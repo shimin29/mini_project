@@ -267,3 +267,356 @@
         font-size: 34px;
     }
 }
+
+/* =========================
+   PET LIST PAGE
+========================= */
+
+.pet-page {
+    min-height: 100vh;
+    background: #fffafc;
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.pet-page-header {
+    text-align: center;
+    padding: 70px 20px 45px;
+}
+
+.pet-page-header h1 {
+    margin: 10px 0;
+    font-size: 42px;
+    color: #222;
+}
+
+.pet-page-header p:last-child {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #777;
+    line-height: 1.7;
+}
+
+/* =========================
+   FILTER SECTION
+========================= */
+
+.pet-filter-section {
+    max-width: 1200px;
+    margin: 0 auto 45px;
+    padding: 22px;
+    background: white;
+    border-radius: 18px;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 15px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Search */
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 15px;
+
+    border: 1px solid #eee;
+    border-radius: 10px;
+
+    background: #fafafa;
+}
+
+.search-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    padding: 12px 0;
+    font-size: 14px;
+}
+
+/* Filter */
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #777;
+}
+
+.filter-group select {
+    padding: 11px 12px;
+
+    border: 1px solid #eee;
+    border-radius: 10px;
+
+    background: white;
+
+    outline: none;
+}
+
+/* =========================
+   PET LIST
+========================= */
+
+.pet-list-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+}
+
+.pet-list-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+
+    margin-bottom: 25px;
+}
+
+.pet-list-heading h2 {
+    margin: 5px 0 0;
+    font-size: 28px;
+    color: #222;
+}
+
+.pet-list-heading > span {
+    color: #888;
+    font-size: 14px;
+}
+
+/* =========================
+   PET GRID
+========================= */
+
+.pet-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+/* =========================
+   PET CARD
+========================= */
+
+.pet-list-card {
+    background: white;
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+
+    transition: 0.3s;
+}
+
+.pet-list-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Image */
+
+.pet-list-image {
+    position: relative;
+    height: 240px;
+
+    background: #f5f5f5;
+}
+
+.pet-list-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+/* Status */
+
+.pet-status {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    background: white;
+}
+
+.pet-status.available {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.pet-status.pending {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.pet-status.adopted {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+/* =========================
+   PET INFO
+========================= */
+
+.pet-list-info {
+    padding: 20px;
+}
+
+.pet-list-info h3 {
+    margin: 0;
+
+    font-size: 22px;
+
+    color: #222;
+}
+
+.pet-breed {
+    margin: 5px 0 15px;
+
+    color: #888;
+    font-size: 14px;
+}
+
+/* Details */
+
+.pet-details {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+}
+
+.pet-details span {
+    padding: 5px 8px;
+
+    background: #f8f8f8;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    color: #666;
+}
+
+/* Health */
+
+.pet-health {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+    font-size: 13px;
+}
+
+.pet-health span {
+    color: #999;
+}
+
+.pet-health strong {
+    color: #555;
+}
+
+/* Button */
+
+.view-pet-btn {
+    width: 100%;
+
+    padding: 11px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #ff69b4;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.view-pet-btn:hover {
+    background: #e7549f;
+}
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.pet-message {
+    text-align: center;
+
+    padding: 70px 20px;
+
+    background: white;
+
+    border-radius: 18px;
+}
+
+.pet-message-icon {
+    font-size: 45px;
+
+    margin-bottom: 10px;
+}
+
+.pet-message h3 {
+    margin: 0 0 8px;
+
+    font-size: 22px;
+}
+
+.pet-message p {
+    color: #888;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #ff6ba6;
+}
+
+.nav-subtitle {
+    font-size: 12px;
+    color: #999;
+    margin-left: 8px;
+    font-weight: 400;
+}

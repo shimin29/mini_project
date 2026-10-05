@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { register, login, getAllUsers, deleteUser } = require("../controllers/userController");
+const { register, login, getAllUsers, deleteUser, getUserCount } = require("../controllers/userController");
 
 const { authenticate, requireAdmin } = require("../middlewares/auth");
 
@@ -11,6 +11,8 @@ router.post("/register", register);
 router.post("/login", login);
 
 // Admin only
+router.get("/count", authenticate, requireAdmin, getUserCount);
+
 router.get("/", authenticate, requireAdmin, getAllUsers);
 
 router.delete("/:id", authenticate, requireAdmin, deleteUser);

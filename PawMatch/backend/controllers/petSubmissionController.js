@@ -149,3 +149,22 @@ exports.rejectPetSubmission = async (req, res) => {
         });
     }
 };
+
+// GET PENDING PET SUBMISSION COUNT
+exports.getPendingPetSubmissionCount = async (req, res) => {
+    try {
+        const count = await PetSubmission.countDocuments({
+            status: "Pending",
+        });
+
+        res.status(200).json({
+            count,
+        });
+    } catch (error) {
+        console.error("Get Pending Pet Submission Count Error:", error);
+
+        res.status(500).json({
+            message: "Failed to get pending submission count",
+        });
+    }
+};

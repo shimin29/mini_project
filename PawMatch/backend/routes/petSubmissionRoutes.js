@@ -1,7 +1,6 @@
 const express = require("express");
 
-const { createPetSubmission, getAllPetSubmissions, approvePetSubmission, rejectPetSubmission } = require("../controllers/petSubmissionController");
-
+const { createPetSubmission, getAllPetSubmissions, approvePetSubmission, rejectPetSubmission, getPendingPetSubmissionCount } = require("../controllers/petSubmissionController");
 const { authenticate, requireAdmin } = require("../middlewares/auth");
 
 const router = express.Router();
@@ -11,6 +10,8 @@ router.post("/", authenticate, createPetSubmission);
 
 // Admin gets all submissions
 router.get("/", authenticate, requireAdmin, getAllPetSubmissions);
+
+router.get("/count", authenticate, requireAdmin, getPendingPetSubmissionCount);
 
 // Admin approves submission
 router.put("/:id/approve", authenticate, requireAdmin, approvePetSubmission);

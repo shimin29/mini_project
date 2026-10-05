@@ -175,9 +175,27 @@ exports.rejectAdoptionApplication = async (req, res) => {
         });
     } catch (error) {
         console.error("Reject Adoption Application Error:", error);
-
         res.status(500).json({
             message: "Failed to reject adoption application",
+        });
+    }
+};
+
+// GET PENDING ADOPTION APPLICATION COUNT
+exports.getPendingAdoptionApplicationCount = async (req, res) => {
+    try {
+        const count = await AdoptionApplication.countDocuments({
+            status: "Pending",
+        });
+
+        res.status(200).json({
+            count,
+        });
+    } catch (error) {
+        console.error("Get Pending Adoption Application Count Error:", error);
+
+        res.status(500).json({
+            message: "Failed to get pending application count",
         });
     }
 };

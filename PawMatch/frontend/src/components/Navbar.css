@@ -1,0 +1,334 @@
+/* USER NAVBAR */
+
+.navbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 75px;
+
+    padding: 0 60px;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    z-index: 1000;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* LOGO */
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    cursor: pointer;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+}
+
+.nav-subtitle {
+    font-size: 13px;
+    color: #999;
+}
+
+/* USER LINKS */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link-btn {
+    border: none;
+    background: transparent;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #555;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.nav-link-btn:hover {
+    background: #fff0f5;
+    color: #ff6ba6;
+}
+
+.nav-link-btn.active {
+    background: #fff0f5;
+    color: #ff6ba6;
+    font-weight: 600;
+}
+
+/* USER LOGOUT */
+
+.logout-btn {
+    border: none;
+
+    background: #ff6ba6;
+    color: white;
+
+    padding: 10px 20px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: #ff4f94;
+}
+
+/* =====================================
+   ADMIN NAVBAR
+===================================== */
+
+.admin-navbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    min-height: 75px;
+
+    padding: 0 40px;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    z-index: 1000;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* ADMIN LOGO */
+
+.admin-logo {
+    font-size: 21px;
+
+    font-weight: 700;
+
+    color: #333;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.admin-logo span {
+    margin-left: 6px;
+
+    color: #ff6ba6;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+/* ADMIN LINKS */
+
+.admin-nav-links {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.admin-nav-btn {
+    border: none;
+
+    background: transparent;
+
+    color: #555;
+
+    padding: 9px 11px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    white-space: nowrap;
+}
+
+.admin-nav-btn:hover {
+    background: #fff0f5;
+    color: #ff6ba6;
+}
+
+.admin-nav-btn.active {
+    background: #fff0f5;
+    color: #ff6ba6;
+
+    font-weight: 600;
+}
+
+/* =====================================
+   ADMIN ADD PET
+===================================== */
+
+.admin-add-pet-btn {
+    border: none;
+
+    background: #ff6ba6;
+
+    color: white;
+
+    padding: 9px 14px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    white-space: nowrap;
+}
+
+.admin-add-pet-btn:hover {
+    background: #ff4f94;
+
+    transform: translateY(-1px);
+}
+
+/* =====================================
+   ADMIN LOGOUT
+===================================== */
+
+.admin-logout-btn {
+    border: none;
+
+    background: #ff6ba6;
+
+    color: white;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    white-space: nowrap;
+}
+
+.admin-logout-btn:hover {
+    background: #ff4f94;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 1100px) {
+    .navbar {
+        padding: 0 30px;
+    }
+
+    .admin-navbar {
+        padding: 0 20px;
+        gap: 12px;
+    }
+
+    .admin-nav-links {
+        gap: 2px;
+    }
+
+    .admin-nav-btn {
+        padding: 8px 7px;
+        font-size: 12px;
+    }
+}
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 800px) {
+    .navbar {
+        height: auto;
+
+        min-height: 70px;
+
+        padding: 12px 20px;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+
+    .nav-links {
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    .admin-navbar {
+        height: auto;
+
+        padding: 12px 20px;
+
+        flex-wrap: wrap;
+    }
+
+    .admin-nav-links {
+        order: 3;
+
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    .admin-logout-btn {
+        margin-left: auto;
+    }
+}

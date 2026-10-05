@@ -1,10 +1,13 @@
 const express = require("express");
 
-const { getAllPets, getPetById, addNewPet, updatePet, deletePet } = require("../controllers/petController");
+const { getAllPets, getPetById, addNewPet, updatePet, deletePet, getPetCount } = require("../controllers/petController");
 
 const { authenticate, requireAdmin } = require("../middlewares/auth");
 
 const router = express.Router();
+
+
+router.get("/count", authenticate, requireAdmin, getPetCount);
 
 // Get all pets
 router.get("/", getAllPets);

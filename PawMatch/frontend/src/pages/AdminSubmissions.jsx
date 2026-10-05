@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 
 function AdminSubmissions() {
     const [submissions, setSubmissions] = useState([]);
@@ -92,13 +93,6 @@ function AdminSubmissions() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-
-        navigate("/login");
-    };
-
     if (loading) {
         return (
             <div className="admin-loading">
@@ -113,16 +107,7 @@ function AdminSubmissions() {
         <div className="admin-submissions-page">
             {/* NAVBAR */}
 
-            <nav className="admin-navbar">
-                <div className="admin-logo" onClick={() => navigate("/admin/dashboard")}>
-                    🐾 PawMatch
-                    <span>Admin</span>
-                </div>
-
-                <button className="admin-logout-btn" onClick={handleLogout}>
-                    Logout
-                </button>
-            </nav>
+            <Navbar role="admin" />
 
             {/* MAIN */}
 

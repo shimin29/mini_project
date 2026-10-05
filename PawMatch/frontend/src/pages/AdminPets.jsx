@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 
 function AdminPets() {
     const [pets, setPets] = useState([]);
@@ -70,17 +71,7 @@ function AdminPets() {
     return (
         <div className="admin-pets-page">
             {/* NAVBAR */}
-
-            <nav className="admin-navbar">
-                <div className="admin-logo">
-                    🐾 PawMatch
-                    <span>Admin</span>
-                </div>
-
-                <button className="admin-logout-btn" onClick={handleLogout}>
-                    Logout
-                </button>
-            </nav>
+            <Navbar role="admin" />
 
             {/* MAIN */}
 

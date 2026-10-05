@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 
 function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -73,17 +74,7 @@ function AdminUsers() {
     return (
         <div className="admin-users-page">
             {/* Navbar */}
-            <nav className="admin-navbar">
-                <div className="admin-logo" onClick={() => navigate("/admin/dashboard")}>
-                    🐾 PawMatch
-                    <span>Admin</span>
-                </div>
-
-                <button className="admin-logout-btn" onClick={handleLogout}>
-                    Logout
-                </button>
-            </nav>
-
+            <Navbar role="admin" />
             {/* Main */}
             <main className="admin-users-container">
                 {/* Header */}

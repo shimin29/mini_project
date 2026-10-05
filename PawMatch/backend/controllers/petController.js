@@ -65,3 +65,18 @@ exports.deletePet = async (req, res) => {
     const pet = await Pet.findByIdAndDelete(req.params.id);
     res.json(pet);
 };
+
+//GET PET COUNT
+exports.getPetCount = async (req, res) => {
+    try {
+        const count = await Pet.countDocuments();
+        res.status(200).json({
+            count,
+        });
+    } catch (error) {
+        console.error("Get Pet Count Error:", error);
+        res.status(500).json({
+            message: "Failed to get pet count",
+        });
+    }
+};

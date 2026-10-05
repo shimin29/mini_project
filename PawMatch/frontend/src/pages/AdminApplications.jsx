@@ -1,44 +1,68 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 
 function AdminApplications() {
+    const navigate = useNavigate();
+
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [processingId, setProcessingId] = useState(null);
 
-    const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
+    // =========================
+    // GET ALL APPLICATIONS
+    // =========================
     const fetchApplications = async () => {
         try {
+            setLoading(true);
+
             const response = await axios.get("http://localhost:3000/adoption-applications", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            console.log("Applications:", response.data);
-
             setApplications(response.data);
         } catch (error) {
-            console.log("Get Applications Error:", error);
+            console.error("Get Applications Error:", error);
 
-            alert(error.response?.data?.message || "Failed to get adoption applications");
+            if (error.response?.status === 401) {
+                alert("Please login again.");
+                localStorage.removeItem("token");
+                navigate("/login");
+            }
+
+            if (error.response?.status === 403) {
+                alert("Access denied. Admin only.");
+                navigate("/products");
+            }
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
         fetchApplications();
     }, []);
 
-    const approveApplication = async (id) => {
-        const confirmApprove = window.confirm("Are you sure you want to approve this adoption application?");
+    // APPROVE
+
+    const handleApprove = async (id) => {
+        const confirmApprove = window.confirm("Are you sure you want to approve this application?");
 
         if (!confirmApprove) return;
 
         try {
+            setProcessingId(id);
+
             await axios.put(
                 `http://localhost:3000/adoption-applications/${id}/approve`,
                 {},
@@ -49,22 +73,28 @@ function AdminApplications() {
                 },
             );
 
-            alert("Application approved!");
+            alert("Application approved successfully!");
 
             fetchApplications();
         } catch (error) {
-            console.log("Approve Application Error:", error);
+            console.error("Approve Error:", error);
 
-            alert(error.response?.data?.message || "Failed to approve application");
+            alert(error.response?.data?.message || "Failed to approve application.");
+        } finally {
+            setProcessingId(null);
         }
     };
 
-    const rejectApplication = async (id) => {
-        const confirmReject = window.confirm("Are you sure you want to reject this adoption application?");
+    // REJECT
+
+    const handleReject = async (id) => {
+        const confirmReject = window.confirm("Are you sure you want to reject this application?");
 
         if (!confirmReject) return;
 
         try {
+            setProcessingId(id);
+
             await axios.put(
                 `http://localhost:3000/adoption-applications/${id}/reject`,
                 {},
@@ -75,149 +105,131 @@ function AdminApplications() {
                 },
             );
 
-            alert("Application rejected!");
+            alert("Application rejected.");
 
             fetchApplications();
         } catch (error) {
-            console.log("Reject Application Error:", error);
+            console.error("Reject Error:", error);
 
-            alert(error.response?.data?.message || "Failed to reject application");
+            alert(error.response?.data?.message || "Failed to reject application.");
+        } finally {
+            setProcessingId(null);
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-
-        navigate("/login");
-    };
-
+    // =========================
+    // LOADING
+    // =========================
     if (loading) {
         return (
-            <div className="admin-loading">
-                <div className="loading-spinner"></div>
-                <p>Loading applications...</p>
+            <div className="admin-applications-page">
+                <div className="loading-box">
+                    <div className="spinner-border"></div>
+                    <p>Loading applications...</p>
+                </div>
             </div>
         );
     }
 
     return (
         <div className="admin-applications-page">
-            {/* Navbar */}
-            <nav className="admin-navbar">
-                <div className="admin-logo" onClick={() => navigate("/admin/dashboard")}>
-                    🐾 PawMatch
-                    <span>Admin</span>
+            <Navbar role="admin" />
+            <button className="back-to-pets" onClick={() => navigate("/admin/dashboard")}>
+                ← Back to Dashboard
+            </button>
+            {/* HEADER */}
+            <div className="admin-applications-header">
+                <div>
+                    <span className="admin-label">ADMIN PANEL</span>
+
+                    <h1>Adoption Applications 🐾</h1>
+
+                    <p>Review and manage adoption applications submitted by PawMatch users.</p>
                 </div>
 
-                <button className="admin-logout-btn" onClick={handleLogout}>
-                    Logout
-                </button>
-            </nav>
+                <div className="application-count">
+                    <strong>{applications.length}</strong>
 
-            {/* Main */}
-            <main className="admin-applications-container">
-                {/* Header */}
-                <div className="admin-applications-header">
-                    <button className="back-to-pets" onClick={() => navigate("/admin/dashboard")}>
-                        ← Back to Dashboard
-                    </button>
-
-                    <p className="admin-section-label">ADMIN PANEL</p>
-
-                    <h1>
-                        Adoption <span>Applications</span>
-                    </h1>
-
-                    <p className="admin-section-description">Review and manage adoption applications submitted by PawMatch users.</p>
+                    <span>Applications</span>
                 </div>
+            </div>
 
-                {/* Empty */}
-                {applications.length === 0 ? (
-                    <div className="no-admin-applications">
-                        <div className="empty-icon">❤️</div>
+            {/* NO APPLICATION */}
+            {applications.length === 0 ? (
+                <div className="empty-applications">
+                    <div className="empty-icon">🐶</div>
 
-                        <h2>No Applications</h2>
+                    <h3>No Applications Yet</h3>
 
-                        <p>There are currently no adoption applications.</p>
-                    </div>
-                ) : (
-                    /* Applications */
-                    <div className="admin-applications-list">
-                        {applications.map((application) => (
+                    <p>There are currently no adoption applications to review.</p>
+                </div>
+            ) : (
+                /* APPLICATION LIST */
+                <div className="applications-list">
+                    {applications.map((application) => {
+                        const pet = application.petId;
+                        const applicant = application.applicantId;
+
+                        return (
                             <div className="application-card" key={application._id}>
-                                {/* Pet Image */}
-                                <div className="application-image-wrapper">
-                                    {application.petId?.image ? <img src={application.petId.image} alt={application.petId.name} className="application-image" /> : <div className="application-no-image">🐾</div>}
+                                {/* PET IMAGE */}
+                                <div className="pet-section">
+                                    {pet?.image ? <img src={pet.image} alt={pet.name} className="pet-image" /> : <div className="no-image">🐾</div>}
 
-                                    <span className={`application-status ${application.status.toLowerCase()}`}>{application.status}</span>
+                                    <h3>{pet?.name || "Unknown Pet"}</h3>
+
+                                    <span>{pet?.breed || "Unknown breed"}</span>
                                 </div>
 
-                                {/* Content */}
-                                <div className="application-content">
-                                    {/* Pet */}
-                                    <div className="application-pet-title">
-                                        <div>
-                                            <p className="application-label">PET</p>
+                                {/* APPLICANT */}
+                                <div className="application-info">
+                                    <div className="info-section">
+                                        <h4>Applicant</h4>
 
-                                            <h2>{application.petId?.name || "Unknown Pet"}</h2>
+                                        <p className="applicant-name">{applicant?.name || "Unknown"}</p>
 
-                                            <span>{application.petId?.breed || "Unknown Breed"}</span>
-                                        </div>
+                                        <p className="email">{applicant?.email || "No email"}</p>
                                     </div>
 
-                                    {/* Pet Details */}
-                                    <div className="application-pet-details">
-                                        <span>🐾 {application.petId?.type || "Unknown"}</span>
+                                    <div className="info-section">
+                                        <h4>Reason for Adoption</h4>
 
-                                        <span>🎂 {application.petId?.age ?? "-"} years</span>
-
-                                        <span>⚧ {application.petId?.gender || "-"}</span>
+                                        <p>{application.reason}</p>
                                     </div>
 
-                                    {/* Applicant */}
-                                    <div className="application-applicant">
-                                        <p>APPLICANT</p>
+                                    <div className="info-section">
+                                        <h4>Previous Experience</h4>
 
-                                        <strong>{application.applicantId?.name || "Unknown User"}</strong>
-
-                                        <span>{application.applicantId?.email || ""}</span>
+                                        <p>{application.experience}</p>
                                     </div>
 
-                                    {/* Reason */}
-                                    <div className="application-section">
-                                        <p>Reason for Adoption</p>
+                                    <div className="application-date">Applied on {new Date(application.createdAt).toLocaleDateString()}</div>
+                                </div>
 
-                                        <div className="application-text-box">{application.reason}</div>
-                                    </div>
+                                {/* STATUS / ACTION */}
+                                <div className="application-actions">
+                                    {/* STATUS */}
+                                    <span className={`status-badge ${application.status === "Approved" ? "approved" : application.status === "Rejected" ? "rejected" : "pending"}`}>{application.status}</span>
 
-                                    {/* Experience */}
-                                    <div className="application-section">
-                                        <p>Previous Pet Experience</p>
-
-                                        <div className="application-text-box">{application.experience}</div>
-                                    </div>
-
-                                    {/* Actions */}
+                                    {/* BUTTONS */}
                                     {application.status === "Pending" && (
-                                        <div className="application-actions">
-                                            <button className="approve-btn" onClick={() => approveApplication(application._id)}>
-                                                ✓ Approve
+                                        <div className="action-buttons">
+                                            <button className="approve-btn" onClick={() => handleApprove(application._id)} disabled={processingId === application._id}>
+                                                {processingId === application._id ? "Processing..." : "✓ Approve"}
                                             </button>
 
-                                            <button className="reject-btn" onClick={() => rejectApplication(application._id)}>
+                                            <button className="reject-btn" onClick={() => handleReject(application._id)} disabled={processingId === application._id}>
                                                 ✕ Reject
                                             </button>
                                         </div>
                                     )}
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                )}
-            </main>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 }
-
 export default AdminApplications;
