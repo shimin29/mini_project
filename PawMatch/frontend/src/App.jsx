@@ -19,7 +19,7 @@ import AdminUsers from "./pages/AdminUsers";
 
 import AdminRoute from "./components/AdminRoute";
 
-import "./App.css";
+// import "./App.css";
 
 function App() {
     return (
@@ -33,11 +33,11 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/pet" element={<Pet />} />
                 <Route path="/pet" element={<Pet />} />
-                <Route path="/pet/:id" element={<PetDetails />} /> <Route path="/submit-pet" element={<SubmitPet />} />
+                <Route path="/pet/:id" element={<PetDetails />} />
+                <Route path="/submit-pet" element={<SubmitPet />} />
                 <Route path="/adopt/:petId" element={<Adopt />} />
                 <Route path="/my-applications" element={<MyApplications />} />
 
-                
                 {/* Admin */}
                 <Route
                     path="/admin/dashboard"

@@ -1,0 +1,488 @@
+/* ================================
+   ADOPT PAGE
+================================ */
+
+.adopt-page {
+    min-height: 100vh;
+    background: #fff8f5;
+    padding-top: 75px;
+}
+
+/* ================================
+   CONTAINER
+================================ */
+
+.adopt-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 0 60px;
+}
+
+/* ================================
+   BACK BUTTON
+================================ */
+
+.adopt-container .back-pets-btn {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 25px;
+    padding: 9px 0;
+
+    border: none;
+    background: transparent;
+
+    color: #555;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.adopt-container .back-pets-btn:hover {
+    color: #ff6ba6;
+}
+
+/* ================================
+   MAIN CARD
+================================ */
+
+.adopt-card {
+    width: 100%;
+
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================
+   PET SUMMARY
+================================ */
+
+.adopt-pet {
+    display: grid;
+
+    grid-template-columns: 42% 58%;
+
+    min-height: 380px;
+}
+
+/* ================================
+   PET IMAGE
+================================ */
+
+.adopt-pet-image {
+    width: 100%;
+    height: 380px;
+
+    background: #f8efec;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.adopt-pet-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+/* ================================
+   PET INFORMATION
+================================ */
+
+.adopt-pet-info {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 45px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+/* ================================
+   SMALL TITLE
+================================ */
+
+.adopt-pet-info .section-small-title {
+    margin: 0 0 10px;
+
+    color: #ff6ba6;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+/* ================================
+   PET NAME
+================================ */
+
+.adopt-pet-info h1 {
+    margin: 0;
+
+    color: #333;
+
+    font-size: 40px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+/* ================================
+   BREED
+================================ */
+
+.adopt-breed {
+    margin: 8px 0 25px;
+
+    color: #777;
+
+    font-size: 17px;
+}
+
+/* ================================
+   PET DETAILS
+================================ */
+
+.adopt-pet-details {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+.adopt-pet-details span {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 8px 12px;
+
+    border-radius: 10px;
+
+    background: #fff8f5;
+
+    border: 1px solid #f7e6e0;
+
+    color: #555;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+/* ================================
+   DESCRIPTION
+================================ */
+
+.adopt-description {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.adopt-description strong {
+    color: #444;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.adoption-form {
+    padding: 45px;
+
+    border-top: 1px solid #f0e5e1;
+
+    background: white;
+}
+
+/* ================================
+   FORM HEADING
+================================ */
+
+.form-heading {
+    margin-bottom: 30px;
+}
+
+.form-heading h2 {
+    margin: 0 0 8px;
+
+    color: #333;
+
+    font-size: 25px;
+}
+
+.form-heading p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+/* ================================
+   FORM GROUP
+================================ */
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+/* ================================
+   TEXTAREA
+================================ */
+
+.form-group textarea {
+    display: block;
+
+    width: 100%;
+
+    min-height: 120px;
+
+    box-sizing: border-box;
+
+    padding: 14px 15px;
+
+    border: 1px solid #e3d5d1;
+
+    border-radius: 12px;
+
+    background: white;
+
+    color: #333;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    resize: vertical;
+
+    outline: none;
+}
+
+.form-group textarea:focus {
+    border-color: #ff6ba6;
+
+    box-shadow: 0 0 0 3px rgba(255, 107, 166, 0.12);
+}
+
+.form-group textarea::placeholder {
+    color: #aaa;
+}
+
+/* ================================
+   SUBMIT BUTTON
+================================ */
+
+.submit-adoption-btn {
+    display: block;
+
+    width: 100%;
+
+    min-height: 52px;
+
+    padding: 14px 20px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #ff6ba6;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.submit-adoption-btn:hover:not(:disabled) {
+    background: #ff4f94;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 7px 18px rgba(255, 107, 166, 0.25);
+}
+
+.submit-adoption-btn:disabled {
+    background: #f2a9c4;
+
+    cursor: not-allowed;
+}
+
+/* ================================
+   LOADING / ERROR
+================================ */
+
+.adopt-message {
+    min-height: calc(100vh - 75px);
+
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.adopt-message-icon {
+    margin-bottom: 15px;
+
+    font-size: 55px;
+}
+
+.adopt-message h2 {
+    margin: 0 0 10px;
+
+    color: #333;
+}
+
+.adopt-message p {
+    margin: 0 0 20px;
+
+    color: #777;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 850px) {
+    .adopt-pet {
+        grid-template-columns: 40% 60%;
+    }
+
+    .adopt-pet-image {
+        height: 350px;
+    }
+
+    .adopt-pet-info {
+        padding: 35px;
+    }
+
+    .adopt-pet-info h1 {
+        font-size: 32px;
+    }
+
+    .adoption-form {
+        padding: 35px;
+    }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+    .adopt-container {
+        width: 92%;
+    }
+
+    .adopt-pet {
+        display: flex;
+
+        flex-direction: column;
+    }
+
+    .adopt-pet-image {
+        width: 100%;
+
+        height: 300px;
+    }
+
+    .adopt-pet-info {
+        width: 100%;
+
+        padding: 30px 25px;
+    }
+
+    .adopt-pet-info h1 {
+        font-size: 30px;
+    }
+
+    .adoption-form {
+        padding: 30px 25px;
+    }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 450px) {
+    .adopt-container {
+        width: 94%;
+    }
+
+    .adopt-pet-image {
+        height: 250px;
+    }
+
+    .adopt-pet-info {
+        padding: 25px 20px;
+    }
+
+    .adopt-pet-info h1 {
+        font-size: 27px;
+    }
+
+    .adoption-form {
+        padding: 25px 20px;
+    }
+
+    .form-heading h2 {
+        font-size: 21px;
+    }
+}

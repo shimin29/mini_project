@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
+import "../CSS/SubmitPet.css";
 
 function SubmitPet() {
     const navigate = useNavigate();
@@ -17,6 +19,9 @@ function SubmitPet() {
         reason: "",
     });
 
+    const [submitting, setSubmitting] = useState(false);
+
+    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -26,13 +31,22 @@ function SubmitPet() {
         });
     };
 
+    // Submit pet
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const token = localStorage.getItem("token");
 
+        if (!token) {
+            alert("Please login first.");
+            navigate("/login");
+            return;
+        }
+
         try {
-            const response = await axios.post(
+            setSubmitting(true);
+
+            await axios.post(
                 "http://localhost:3000/pet-submissions",
                 {
                     ...formData,
@@ -45,119 +59,163 @@ function SubmitPet() {
                 },
             );
 
-            console.log(response.data);
-
-            alert("Pet submitted successfully!");
+            alert("Pet submitted successfully! Please wait for admin approval.");
 
             navigate("/home");
         } catch (error) {
             console.log("Submit Pet Error:", error);
-            console.log("Response:", error.response?.data);
 
-            alert(error.response?.data?.message || "Failed to submit pet");
+            alert(error.response?.data?.message || "Failed to submit pet. Please try again.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
     return (
         <div className="submit-pet-page">
-            <div className="submit-pet-card">
-                <h2>Submit Your Pet</h2>
+            <Navbar role="user" />
 
-                <p>Submit your pet for adoption and wait for our admin to review your request.</p>
+            <main className="submit-pet-container">
+                {/* Page Header */}
+                <div className="submit-pet-header">
+                    <p className="section-small-title">GIVE THEM A NEW CHANCE</p>
 
-                <form onSubmit={handleSubmit}>
-                    {/* Pet Name */}
-                    <div className="form-group">
-                        <label>Pet Name</label>
+                    <h1>Submit Your Pet</h1>
 
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter pet name" required />
-                    </div>
+                    <p>Help your pet find a loving new home. Submit the information below and our admin team will review your request.</p>
+                </div>
 
-                    {/* Type */}
-                    <div className="form-group">
-                        <label>Pet Type</label>
+                {/* Form Card */}
+                <div className="submit-pet-card">
+                    <form onSubmit={handleSubmit}>
+                        {/* Basic Information */}
+                        <div className="form-section">
+                            <h2>Pet Information</h2>
 
-                        <select name="type" value={formData.type} onChange={handleChange} required>
-                            <option value="">Select type</option>
+                            <p className="form-section-description">Tell us about the pet you would like to submit for adoption.</p>
 
-                            <option value="Dog">Dog</option>
+                            {/* Name */}
+                            <div className="form-group">
+                                <label>Pet Name</label>
 
-                            <option value="Cat">Cat</option>
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter pet name" required />
+                            </div>
 
-                            <option value="Rabbit">Rabbit</option>
+                            {/* Type + Breed */}
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Type</label>
 
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+                                    <select name="type" value={formData.type} onChange={handleChange} required>
+                                        <option value="">Select type</option>
 
-                    {/* Breed */}
-                    <div className="form-group">
-                        <label>Breed</label>
+                                        <option value="Dog">Dog</option>
 
-                        <input type="text" name="breed" value={formData.breed} onChange={handleChange} placeholder="Enter breed" required />
-                    </div>
+                                        <option value="Cat">Cat</option>
 
-                    {/* Gender */}
-                    <div className="form-group">
-                        <label>Gender</label>
+                                        <option value="Rabbit">Rabbit</option>
 
-                        <select name="gender" value={formData.gender} onChange={handleChange} required>
-                            <option value="">Select gender</option>
+                                        <option value="Bird">Bird</option>
 
-                            <option value="Male">Male</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
 
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
+                                <div className="form-group">
+                                    <label>Breed</label>
 
-                    {/* Age */}
-                    <div className="form-group">
-                        <label>Age</label>
+                                    <input type="text" name="breed" value={formData.breed} onChange={handleChange} placeholder="e.g. Golden Retriever" required />
+                                </div>
+                            </div>
 
-                        <input type="number" name="age" value={formData.age} onChange={handleChange} min="0" placeholder="Enter age" required />
-                    </div>
+                            {/* Gender + Age */}
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Gender</label>
 
-                    {/* Health Status */}
-                    <div className="form-group">
-                        <label>Health Status</label>
+                                    <select name="gender" value={formData.gender} onChange={handleChange} required>
+                                        <option value="">Select gender</option>
 
-                        <select name="healthStatus" value={formData.healthStatus} onChange={handleChange} required>
-                            <option value="">Select health status</option>
+                                        <option value="Male">Male</option>
 
-                            <option value="Healthy">Healthy</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
 
-                            <option value="Under Treatment">Under Treatment</option>
+                                <div className="form-group">
+                                    <label>Age</label>
 
-                            <option value="Special Needs">Special Needs</option>
-                        </select>
-                    </div>
+                                    <input type="number" name="age" value={formData.age} onChange={handleChange} placeholder="Enter age" min="0" required />
+                                </div>
+                            </div>
 
-                    {/* Image */}
-                    <div className="form-group">
-                        <label>Image URL</label>
+                            {/* Health */}
+                            <div className="form-group">
+                                <label>Health Status</label>
 
-                        <input type="url" name="image" value={formData.image} onChange={handleChange} placeholder="https://example.com/pet.jpg" required />
-                    </div>
+                                <input type="text" name="healthStatus" value={formData.healthStatus} onChange={handleChange} placeholder="e.g. Healthy, Vaccinated" required />
+                            </div>
 
-                    {/* Description */}
-                    <div className="form-group">
-                        <label>Description</label>
+                            {/* Image */}
+                            <div className="form-group">
+                                <label>Pet Image URL</label>
 
-                        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Tell us about your pet" />
-                    </div>
+                                <input type="text" name="image" value={formData.image} onChange={handleChange} placeholder="Paste pet image URL" required />
 
-                    {/* Reason */}
-                    <div className="form-group">
-                        <label>Reason for Adoption</label>
+                                <small>Please provide a valid image URL.</small>
+                            </div>
+                        </div>
 
-                        <textarea name="reason" value={formData.reason} onChange={handleChange} placeholder="Why are you putting your pet up for adoption?" required />
-                    </div>
+                        {/* Description */}
+                        <div className="form-section">
+                            <h2>About Your Pet</h2>
 
-                    <button type="submit" className="submit-pet-btn">
-                        Submit Pet
-                    </button>
-                </form>
-            </div>
+                            <p className="form-section-description">Give potential adopters more information about your pet.</p>
+
+                            <div className="form-group">
+                                <label>Description</label>
+
+                                <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Tell us about your pet's personality, habits and special characteristics..." rows="5" />
+                            </div>
+                        </div>
+
+                        {/* Reason */}
+                        <div className="form-section">
+                            <h2>Reason for Submission</h2>
+
+                            <p className="form-section-description">Please explain why you are looking for a new home for your pet.</p>
+
+                            <div className="form-group">
+                                <label>Why are you submitting this pet?</label>
+
+                                <textarea name="reason" value={formData.reason} onChange={handleChange} placeholder="Please explain the reason..." rows="5" required />
+                            </div>
+                        </div>
+
+                        {/* Notice */}
+                        <div className="submit-pet-notice">
+                            <span>🐾</span>
+
+                            <div>
+                                <strong>What happens next?</strong>
+
+                                <p>Your submission will be reviewed by our admin team. Once approved, your pet will be listed on PawMatch and other users can apply to adopt.</p>
+                            </div>
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="submit-pet-actions">
+                            <button type="button" className="cancel-submit-btn" onClick={() => navigate("/pet")}>
+                                Cancel
+                            </button>
+
+                            <button type="submit" className="submit-pet-btn" disabled={submitting}>
+                                {submitting ? "Submitting..." : "🐾 Submit Pet"}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
     );
 }

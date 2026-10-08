@@ -1,0 +1,491 @@
+/* ================================
+   PET DETAILS PAGE
+================================ */
+
+.pet-details-page {
+    min-height: 100vh;
+    background: #fff8f5;
+    padding-top: 75px;
+}
+
+/* ================================
+   MAIN CONTAINER
+================================ */
+
+.pet-details-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 35px 0 60px;
+}
+
+/* ================================
+   BACK BUTTON
+================================ */
+
+.back-pets-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    border: none;
+    background: transparent;
+
+    color: #555;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-bottom: 25px;
+    padding: 8px 0;
+
+    transition: 0.2s ease;
+}
+
+.back-pets-btn:hover {
+    color: #ff6ba6;
+    transform: translateX(-3px);
+}
+
+/* ================================
+   MAIN CARD
+================================ */
+
+.pet-details-card {
+    width: 100%;
+
+    display: grid;
+
+    /*
+       左边照片
+       右边资料
+    */
+    grid-template-columns: 45% 55%;
+
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+
+    min-height: 600px;
+}
+
+/* ================================
+   IMAGE CARD
+================================ */
+
+.pet-details-image {
+    position: relative;
+
+    width: 100%;
+    height: 600px;
+
+    background: #f8f1ee;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.pet-details-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    /*
+       保持原本照片比例
+       不拉伸、不变形
+    */
+    object-fit: contain;
+
+    object-position: center;
+}
+
+/* ================================
+   STATUS BADGE
+================================ */
+
+.pet-status {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: inline-block;
+    width: fit-content;
+    padding: 4px 7px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    background: white;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Available */
+
+.pet-status.available {
+    color: #2e8b57;
+}
+
+/* Pending */
+
+.pet-status.pending {
+    color: #d89b00;
+}
+
+/* Adopted */
+
+.pet-status.adopted {
+    color: #e912af;
+}
+
+/* ================================
+   INFORMATION CARD
+================================ */
+
+.pet-details-info {
+    width: 100%;
+
+    padding: 50px;
+
+    /*
+       防止内容撑破右边 Card
+    */
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+/* ================================
+   SMALL TITLE
+================================ */
+
+.section-small-title {
+    margin: 0 0 10px;
+
+    color: #ff6ba6;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+/* ================================
+   PET NAME
+================================ */
+
+.pet-details-info h1 {
+    margin: 0;
+
+    color: #333;
+
+    font-size: 42px;
+    font-weight: 700;
+
+    line-height: 1.15;
+
+    overflow-wrap: break-word;
+}
+
+/* Breed */
+
+.pet-details-breed {
+    margin: 8px 0 30px;
+
+    color: #777;
+
+    font-size: 17px;
+}
+
+/* ================================
+   BASIC INFORMATION
+================================ */
+
+.pet-info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+}
+
+/* Individual information box */
+
+.pet-info-grid > div {
+    min-width: 0;
+
+    padding: 16px;
+
+    background: #fff8f5;
+
+    border-radius: 12px;
+
+    border: 1px solid #f7e6e0;
+}
+
+/* Label */
+
+.pet-info-grid span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #999;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+}
+
+/* Value */
+
+.pet-info-grid strong {
+    display: block;
+
+    color: #333;
+
+    font-size: 15px;
+
+    /*
+       长文字不会把 Card 撑爆
+    */
+    overflow-wrap: anywhere;
+}
+
+/* ================================
+   DESCRIPTION
+================================ */
+
+.pet-description {
+    margin-bottom: 30px;
+}
+
+.pet-description h3 {
+    margin: 0 0 10px;
+
+    color: #333;
+
+    font-size: 20px;
+}
+
+.pet-description p {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+    /*
+       很长的 description 也不会盖到其他内容
+    */
+    overflow-wrap: anywhere;
+}
+
+/* ================================
+   ADOPT BUTTON
+================================ */
+
+.adopt-btn {
+    width: 100%;
+
+    min-height: 50px;
+
+    padding: 14px 20px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #ff6ba6;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.adopt-btn:hover {
+    background: #ff4f94;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 7px 18px rgba(255, 107, 166, 0.25);
+}
+
+/* Disabled */
+
+.adopt-btn.disabled {
+    background: #ddd;
+
+    color: #777;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+/* ================================
+   LOADING / NOT FOUND
+================================ */
+
+.pet-details-message {
+    min-height: calc(100vh - 75px);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 40px;
+}
+
+.pet-message-icon {
+    font-size: 55px;
+
+    margin-bottom: 15px;
+}
+
+.pet-details-message h2 {
+    margin: 0 0 10px;
+
+    color: #333;
+
+    font-size: 26px;
+}
+
+.pet-details-message p {
+    margin: 0 0 20px;
+
+    color: #777;
+
+    font-size: 15px;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+    .pet-details-card {
+        grid-template-columns: 42% 58%;
+    }
+
+    .pet-details-info {
+        padding: 35px;
+    }
+
+    .pet-details-info h1 {
+        font-size: 34px;
+    }
+
+    .pet-details-image {
+        min-height: 550px;
+    }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+    .pet-details-container {
+        width: 92%;
+
+        padding-top: 25px;
+    }
+
+    /*
+       手机改成上下排列
+       图片在上面
+       文字在下面
+    */
+
+    .pet-details-card {
+        display: flex;
+
+        flex-direction: column;
+
+        min-height: auto;
+    }
+
+    .pet-details-image {
+        width: 100%;
+
+        height: 350px;
+
+        min-height: 350px;
+    }
+
+    .pet-details-info {
+        width: 100%;
+
+        padding: 30px 25px;
+    }
+
+    .pet-details-info h1 {
+        font-size: 32px;
+    }
+
+    .pet-info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 450px) {
+    .pet-details-container {
+        width: 94%;
+    }
+
+    .pet-details-image {
+        height: 300px;
+
+        min-height: 300px;
+    }
+
+    .pet-details-info {
+        padding: 25px 20px;
+    }
+
+    .pet-details-info h1 {
+        font-size: 28px;
+    }
+
+    .pet-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pet-details-breed {
+        margin-bottom: 20px;
+    }
+}

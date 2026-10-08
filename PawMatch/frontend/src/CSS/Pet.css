@@ -1,0 +1,348 @@
+/* PET CSS */
+.pet-page {
+    min-height: 100vh;
+    padding-top: 75px;
+    background: #fff8f5;
+}
+
+/* PAGE HEADER */
+.pet-page-header {
+    padding: 70px 30px 50px;
+    text-align: center;
+    background: #fff8f5;
+}
+
+.pet-page-header h1 {
+    margin: 8px 0 15px;
+
+    font-size: 44px;
+    font-weight: 800;
+    color: #333;
+}
+
+.pet-page-header > p:last-child {
+    max-width: 650px;
+    margin: 0 auto;
+
+    color: #777;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* FILTER SECTION */
+.pet-filter-section {
+    max-width: 1150px;
+
+    margin: 0 auto 55px;
+    padding: 22px;
+
+    display: grid;
+    grid-template-columns: minmax(280px, 2fr) repeat(3, 1fr);
+    gap: 18px;
+
+    background: white;
+    border: 1px solid #ffe4ed;
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* SEARCH */
+.search-box {
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 16px;
+
+    border: 1px solid #eadfe3;
+    border-radius: 10px;
+
+    background: #fff;
+
+    transition: 0.2s ease;
+}
+
+.search-box:focus-within {
+    border-color: #ff6ba6;
+    box-shadow: 0 0 0 3px rgba(255, 107, 166, 0.12);
+}
+
+.search-box span {
+    margin-right: 10px;
+    font-size: 17px;
+}
+
+.search-box input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 14px;
+    color: #333;
+}
+
+.search-box input::placeholder {
+    color: #aaa;
+}
+
+/* FILTER GROUP */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+}
+
+.filter-group select {
+    height: 48px;
+
+    padding: 0 12px;
+
+    border: 1px solid #eadfe3;
+    border-radius: 10px;
+
+    background: white;
+
+    color: #333;
+    font-size: 14px;
+
+    outline: none;
+    cursor: pointer;
+}
+
+.filter-group select:focus {
+    border-color: #ff6ba6;
+    box-shadow: 0 0 0 3px rgba(255, 107, 166, 0.12);
+}
+
+/* PET LIST SECTION */
+.pet-list-section {
+    max-width: 1150px;
+
+    margin: 0 auto;
+    padding: 0 20px 80px;
+}
+
+/* LIST HEADING */
+.pet-list-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+.pet-list-heading h2 {
+    margin: 5px 0 0;
+
+    font-size: 30px;
+    color: #333;
+}
+
+.pet-list-heading > span {
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    background: #ffe6ef;
+    color: #ff4f94;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* PET GRID */
+.pet-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+}
+
+/* PET CARD */
+.pet-list-card {
+    overflow: hidden;
+
+    background: white;
+
+    border: 1px solid #ffe4ed;
+    border-radius: 18px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+
+    transition: 0.25s ease;
+}
+
+.pet-list-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* PET IMAGE */
+.pet-list-image {
+    position: relative;
+
+    width: 100%;
+    height: 240px;
+
+    overflow: hidden;
+
+    background: #f5eeee;
+}
+
+.pet-list-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform 0.35s ease;
+}
+
+.pet-list-card:hover .pet-list-image img {
+    transform: scale(1.05);
+}
+
+/* STATUS BADGE */
+.pet-status {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    background: white;
+}
+
+.pet-status.available {
+    color: #27864b;
+    background: #e7f8ed;
+}
+
+.pet-status.pending {
+    color: #9a6a00;
+    background: #fff4cc;
+}
+
+.pet-status.adopted {
+    color: #777;
+    background: #eeeeee;
+}
+
+/* PET INFO */
+.pet-list-info {
+    padding: 22px;
+}
+.pet-list-info h3 {
+    margin: 0 0 5px;
+
+    font-size: 23px;
+    color: #333;
+}
+.pet-breed {
+    margin: 0 0 18px;
+
+    color: #ff6ba6;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* VIEW PROFILE BUTTON - FIX */
+.pet-list-info .view-pet-btn {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+
+    margin-top: 10px;
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #ff6ba6;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: center;
+
+    cursor: pointer;
+    opacity: 1;
+    visibility: visible;
+
+    box-sizing: border-box;
+
+    transition: all 0.25s ease;
+}
+
+.pet-list-info .view-pet-btn:hover {
+    background: #ff4f94;
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 15px rgba(255, 107, 166, 0.25);
+}
+
+/* Application Status */
+
+.pet-application-status {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* No Application */
+.application-not-applied {
+    background: #fff0f5;
+    color: #ff6ba6;
+}
+
+/* Pending */
+.application-pending {
+    background: #fff7df;
+    color: #b8860b;
+}
+
+/* Approved */
+.application-approved {
+    background: #eaf8ef;
+    color: #2e8b57;
+}
+
+/* Rejected */
+.application-rejected {
+    background: #fff0f0;
+    color: #d9534f;
+}
+
+/* Already Adopted */
+.application-adopted {
+    background: #eeeeee;
+    color: #666666;
+}

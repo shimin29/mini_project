@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Navbar from "../components/Navbar";
+import "../CSS/Pet.css";
 
 function Pet() {
     const navigate = useNavigate();
 
     const [pets, setPets] = useState([]);
+    const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [search, setSearch] = useState("");
@@ -14,8 +16,7 @@ function Pet() {
     const [genderFilter, setGenderFilter] = useState("All");
     const [statusFilter, setStatusFilter] = useState("Available");
 
-    const token = localStorage.getItem("token");
-
+    // Get all pets
     const fetchPets = async () => {
         try {
             const response = await axios.get("http://localhost:3000/pets");
@@ -25,20 +26,112 @@ function Pet() {
             setPets(response.data);
         } catch (error) {
             console.log("Get Pets Error:", error);
-        } finally {
-            setLoading(false);
         }
     };
 
+    // Get current user's applications
+    const fetchApplications = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                return;
+            }
+
+            const response = await axios.get("http://localhost:3000/adoption-applications/my", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log("My Applications:", response.data);
+
+            setApplications(response.data);
+        } catch (error) {
+            console.log("Get Applications Error:", error);
+        }
+    };
+
+    // Load pets + applications
     useEffect(() => {
-        fetchPets();
+        const loadData = async () => {
+            setLoading(true);
+
+            await Promise.all([fetchPets(), fetchApplications()]);
+
+            setLoading(false);
+        };
+
+        loadData();
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
+    // Get application for current pet
+    const getPetApplication = (petId) => {
+        return applications.find((application) => {
+            const applicationPetId = typeof application.petId === "object" ? application.petId?._id : application.petId;
 
-        navigate("/login");
+            return applicationPetId === petId;
+        });
+    };
+
+    // Get application status text
+    const getApplicationStatus = (pet) => {
+        // Pet already adopted
+        if (pet.adoptionStatus === "Adopted") {
+            return "🏠 Already Adopted";
+        }
+
+        // Find user's application
+        const application = getPetApplication(pet._id);
+
+        // No application
+        if (!application) {
+            return "❤️ Not Applied";
+        }
+
+        // Pending
+        if (application.status === "Pending") {
+            return "⏳ Application Pending";
+        }
+
+        // Approved
+        if (application.status === "Approved") {
+            return "✅ Application Approved";
+        }
+
+        // Rejected
+        if (application.status === "Rejected") {
+            return "❌ Application Rejected";
+        }
+
+        return "❤️ Not Applied";
+    };
+
+    // Get application status class
+    const getApplicationStatusClass = (pet) => {
+        if (pet.adoptionStatus === "Adopted") {
+            return "application-adopted";
+        }
+
+        const application = getPetApplication(pet._id);
+
+        if (!application) {
+            return "application-not-applied";
+        }
+
+        if (application.status === "Pending") {
+            return "application-pending";
+        }
+
+        if (application.status === "Approved") {
+            return "application-approved";
+        }
+
+        if (application.status === "Rejected") {
+            return "application-rejected";
+        }
+
+        return "application-not-applied";
     };
 
     // Search + Filter
@@ -101,7 +194,9 @@ function Pet() {
 
                     <select value={genderFilter} onChange={(e) => setGenderFilter(e.target.value)}>
                         <option value="All">All</option>
+
                         <option value="Male">Male</option>
+
                         <option value="Female">Female</option>
                     </select>
                 </div>
@@ -112,8 +207,11 @@ function Pet() {
 
                     <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                         <option value="All">All</option>
+
                         <option value="Available">Available</option>
+
                         <option value="Pending">Pending</option>
+
                         <option value="Adopted">Adopted</option>
                     </select>
                 </div>
@@ -134,7 +232,11 @@ function Pet() {
                 {/* Loading */}
                 {loading && (
                     <div className="pet-message">
-                        <p>Loading pets...</p>
+                        <div className="pet-message-icon">🐾</div>
+
+                        <h3>Loading pets...</h3>
+
+                        <p>Please wait while we find your perfect companion.</p>
                     </div>
                 )}
 
@@ -152,43 +254,53 @@ function Pet() {
                 {/* Pet Cards */}
                 {!loading && filteredPets.length > 0 && (
                     <div className="pet-grid">
-                        {filteredPets.map((pet) => (
-                            <div className="pet-list-card" key={pet._id}>
-                                {/* Image */}
-                                <div className="pet-list-image">
-                                    <img src={pet.image} alt={pet.name} />
+                        {filteredPets.map((pet) => {
+                            const applicationStatus = getApplicationStatus(pet);
 
-                                    <span className={`pet-status ${pet.adoptionStatus.toLowerCase().replace(" ", "-")}`}>{pet.adoptionStatus}</span>
-                                </div>
+                            const applicationClass = getApplicationStatusClass(pet);
 
-                                {/* Info */}
-                                <div className="pet-list-info">
-                                    <h3>{pet.name}</h3>
+                            return (
+                                <div className="pet-list-card" key={pet._id}>
+                                    {/* Image */}
+                                    <div className="pet-list-image">
+                                        <img src={pet.image} alt={pet.name} />
 
-                                    <p className="pet-breed">{pet.breed}</p>
-
-                                    <div className="pet-details">
-                                        <span>🐾 {pet.type}</span>
-
-                                        <span>
-                                            {pet.gender === "Male" ? "♂" : "♀"} {pet.gender}
-                                        </span>
-
-                                        <span>🎂 {pet.age} years</span>
+                                        <span className={`pet-status ${pet.adoptionStatus.toLowerCase().replace(" ", "-")}`}>{pet.adoptionStatus}</span>
                                     </div>
 
-                                    <div className="pet-health">
-                                        <span>Health:</span>
+                                    {/* Info */}
+                                    <div className="pet-list-info">
+                                        <h3>{pet.name}</h3>
 
-                                        <strong>{pet.healthStatus}</strong>
+                                        <p className="pet-breed">{pet.breed}</p>
+
+                                        <div className="pet-details">
+                                            <span>🐾 {pet.type}</span>
+
+                                            <span>
+                                                {pet.gender === "Male" ? "♂" : "♀"} {pet.gender}
+                                            </span>
+
+                                            <span>🎂 {pet.age} years</span>
+                                        </div>
+
+                                        <div className="pet-health">
+                                            <span>Health:</span>
+
+                                            <strong>{pet.healthStatus}</strong>
+                                        </div>
+
+                                        {/* Application Status */}
+                                        <div className={`pet-application-status ${applicationClass}`}>{applicationStatus}</div>
+
+                                        {/* View Profile */}
+                                        <button className="view-pet-btn" onClick={() => navigate(`/pet/${pet._id}`)}>
+                                            View Profile →
+                                        </button>
                                     </div>
-
-                                    <button className="view-pet-btn" onClick={() => navigate(`/pet/${pet._id}`)}>
-                                        View Profile →
-                                    </button>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </main>
