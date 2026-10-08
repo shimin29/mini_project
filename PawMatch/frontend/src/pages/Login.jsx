@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
+import "../CSS/Login.css";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -37,27 +38,54 @@ function Login() {
     };
 
     return (
-        <div className="login-wrapper">
-            <form onSubmit={handleLogin} className="login-card">
-                <h2>Welcome Back</h2>
+        <div className="login-page">
+            <div className="login-card">
+                {/* LOGO */}
+                <div className="login-logo">🐾</div>
 
-                <div className="form-group">
-                    <label htmlFor="email">Email Address</label>
-                    <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" required />
+                <p className="login-brand-name">PAWMATCH</p>
+
+                {/* HEADER */}
+                <div className="login-header">
+                    <h1>Welcome Back</h1>
+
+                    <p>Login to continue your PawMatch journey.</p>
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
+                {/* FORM */}
+                <form onSubmit={handleLogin}>
+                    <div className="form-group">
+                        <label htmlFor="email">Email Address</label>
+
+                        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+
+                        <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required />
+                    </div>
+
+                    <button type="submit" className="login-btn">
+                        Login
+                        <span>→</span>
+                    </button>
+                </form>
+
+                {/* DIVIDER */}
+                <div className="login-divider">
+                    <span>OR</span>
                 </div>
 
-                <button type="submit" className="login-btn">
-                    Login
-                </button>
+                {/* REGISTER */}
                 <p className="register-link">
-                    Don't have an account? <Link to="/register">Register</Link>
+                    Don't have an account?
+                    <Link to="/register">Create an account</Link>
                 </p>
-            </form>
+
+                {/* FOOTER */}
+                <p className="login-footer-text">🐾 Every pet deserves a loving home.</p>
+            </div>
         </div>
     );
 }

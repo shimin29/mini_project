@@ -80,7 +80,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/admin/pets/edit/:id"
+                    path="/admin/edit-pet/:id"
                     element={
                         <AdminRoute>
                             <AdminEditPet />

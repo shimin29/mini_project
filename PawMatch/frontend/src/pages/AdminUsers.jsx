@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Navbar from "../components/Navbar";
+import "../CSS/AdminUsers.css";
 
 function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -10,6 +11,7 @@ function AdminUsers() {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
+    // GET ALL USERS
     const fetchUsers = async () => {
         try {
             const response = await axios.get("http://localhost:3000/users", {
@@ -33,6 +35,7 @@ function AdminUsers() {
         fetchUsers();
     }, []);
 
+    // DELETE USER
     const handleDelete = async (id, name) => {
         const confirmDelete = window.confirm(`Are you sure you want to delete ${name}?`);
 
@@ -55,16 +58,10 @@ function AdminUsers() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-
-        navigate("/login");
-    };
-
+    // LOADING
     if (loading) {
         return (
-            <div className="admin-loading">
+            <div className="admin-users-loading">
                 <div className="loading-spinner"></div>
                 <p>Loading users...</p>
             </div>
@@ -73,13 +70,12 @@ function AdminUsers() {
 
     return (
         <div className="admin-users-page">
-            {/* Navbar */}
             <Navbar role="admin" />
-            {/* Main */}
+
             <main className="admin-users-container">
-                {/* Header */}
+                {/* HEADER */}
                 <div className="admin-users-header">
-                    <button className="back-to-pets" onClick={() => navigate("/admin/dashboard")}>
+                    <button className="back-to-dashboard" onClick={() => navigate("/admin/dashboard")}>
                         ← Back to Dashboard
                     </button>
 
@@ -92,17 +88,17 @@ function AdminUsers() {
                     <p className="admin-section-description">View and manage users registered on PawMatch.</p>
                 </div>
 
-                {/* User Count */}
+                {/* SUMMARY */}
                 <div className="users-summary">
                     <div className="users-summary-icon">👥</div>
 
-                    <div>
+                    <div className="users-summary-content">
                         <span>Total Users</span>
                         <strong>{users.length}</strong>
                     </div>
                 </div>
 
-                {/* Empty */}
+                {/* EMPTY STATE */}
                 {users.length === 0 ? (
                     <div className="no-admin-users">
                         <div className="empty-icon">👥</div>
@@ -112,6 +108,7 @@ function AdminUsers() {
                         <p>There are currently no users in the system.</p>
                     </div>
                 ) : (
+                    /* USER TABLE */
                     <div className="admin-users-table-wrapper">
                         <table className="admin-users-table">
                             <thead>
@@ -127,12 +124,12 @@ function AdminUsers() {
                             <tbody>
                                 {users.map((user) => (
                                     <tr key={user._id}>
-                                        {/* User */}
+                                        {/* USER */}
                                         <td>
                                             <div className="user-info">
                                                 <div className="user-avatar">{user.name?.charAt(0).toUpperCase()}</div>
 
-                                                <div>
+                                                <div className="user-name-container">
                                                     <strong>{user.name}</strong>
 
                                                     <span>User ID: {user._id.slice(-6)}</span>
@@ -140,17 +137,17 @@ function AdminUsers() {
                                             </div>
                                         </td>
 
-                                        {/* Email */}
+                                        {/* EMAIL */}
                                         <td>
                                             <span className="user-email">{user.email}</span>
                                         </td>
 
-                                        {/* Role */}
+                                        {/* ROLE */}
                                         <td>
-                                            <span className={`user-role ${user.role}`}>{user.role === "admin" ? " Admin" : " User"}</span>
+                                            <span className={`user-role ${user.role}`}>{user.role === "admin" ? "Admin" : "User"}</span>
                                         </td>
 
-                                        {/* Joined */}
+                                        {/* JOINED */}
                                         <td>
                                             <span className="user-date">
                                                 {user.createdAt
@@ -163,7 +160,7 @@ function AdminUsers() {
                                             </span>
                                         </td>
 
-                                        {/* Action */}
+                                        {/* ACTION */}
                                         <td>
                                             {user.role === "admin" ? (
                                                 <span className="protected-user">🔒 Protected</span>

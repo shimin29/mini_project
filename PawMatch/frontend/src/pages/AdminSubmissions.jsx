@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Navbar from "../components/Navbar";
+import "../CSS/AdminSubmissions.css"
 
 function AdminSubmissions() {
     const [submissions, setSubmissions] = useState([]);

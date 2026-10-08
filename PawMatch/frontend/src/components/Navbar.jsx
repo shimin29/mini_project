@@ -64,11 +64,6 @@ function Navbar({ role }) {
                     Pets
                 </button>
 
-                {/* ADD PET BUTTON */}
-                <button className="admin-add-pet-btn" onClick={() => navigate("/admin/pets/add")}>
-                    + Add Pet
-                </button>
-
                 <button className={location.pathname === "/admin/submissions" ? "admin-nav-btn active" : "admin-nav-btn"} onClick={() => navigate("/admin/submissions")}>
                     Pet Submissions
                 </button>

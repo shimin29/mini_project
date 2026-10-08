@@ -1,0 +1,269 @@
+.admin-page {
+    min-height: 100vh;
+    background: #fff8f5;
+    padding-top: 75px;
+}
+
+/* Dashboard */
+.admin-dashboard {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 0 70px;
+}
+
+/* Header */
+.admin-dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.admin-label {
+    margin: 0 0 8px;
+    color: #ff6ba6;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.admin-dashboard-header h1 {
+    margin: 0;
+    color: #30282e;
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.admin-subtitle {
+    margin: 8px 0 0;
+    color: #888;
+    font-size: 15px;
+}
+
+.admin-welcome-icon {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #ffe8f1;
+    font-size: 36px;
+}
+
+/* Statistics */
+.admin-stats-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 45px;
+}
+
+.admin-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 120px;
+    padding: 22px;
+    box-sizing: border-box;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f3e7e3;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+.admin-stat-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #fff0f5;
+    font-size: 25px;
+}
+
+.admin-stat-content p {
+    margin: 0 0 5px;
+    color: #888;
+    font-size: 13px;
+}
+
+.admin-stat-content h2 {
+    margin: 0;
+    color: #30282e;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Management */
+.admin-management-section {
+    margin-top: 10px;
+}
+
+.admin-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.admin-section-header h2 {
+    margin: 0;
+    color: #30282e;
+    font-size: 25px;
+}
+
+.admin-section-header > span {
+    color: #999;
+    font-size: 13px;
+}
+
+/* Management Cards */
+.admin-card-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.admin-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 145px;
+    padding: 25px;
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid #f3e7e3;
+    border-radius: 17px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+}
+
+.admin-card:hover {
+    transform: translateY(-4px);
+    border-color: #ffd0e0;
+    box-shadow: 0 12px 30px rgba(255, 107, 166, 0.12);
+}
+
+.admin-card-icon {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #fff0f5;
+    font-size: 28px;
+}
+
+.admin-card-content {
+    padding-right: 30px;
+}
+
+.admin-card-content h2 {
+    margin: 0 0 7px;
+    color: #30282e;
+    font-size: 18px;
+}
+
+.admin-card-content p {
+    margin: 0;
+    color: #888;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.admin-card-arrow {
+    position: absolute;
+    right: 22px;
+    color: #ff6ba6;
+    font-size: 23px;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.admin-card:hover .admin-card-arrow {
+    transform: translateX(4px);
+}
+
+/* Tablet */
+@media (max-width: 1000px) {
+    .admin-stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .admin-dashboard {
+        width: 92%;
+        padding: 30px 0 50px;
+    }
+
+    .admin-dashboard-header {
+        align-items: flex-start;
+    }
+
+    .admin-dashboard-header h1 {
+        font-size: 30px;
+    }
+
+    .admin-welcome-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 27px;
+        border-radius: 15px;
+    }
+
+    .admin-stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-section-header {
+        align-items: flex-start;
+    }
+
+    .admin-section-header h2 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 450px) {
+    .admin-dashboard-header {
+        gap: 15px;
+    }
+
+    .admin-dashboard-header h1 {
+        font-size: 26px;
+    }
+
+    .admin-welcome-icon {
+        display: none;
+    }
+
+    .admin-stat-card {
+        min-height: 105px;
+        padding: 18px;
+    }
+
+    .admin-card {
+        min-height: 130px;
+        padding: 20px;
+    }
+}

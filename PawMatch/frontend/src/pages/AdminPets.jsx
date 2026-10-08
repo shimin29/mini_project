@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Navbar from "../components/Navbar";
+import "../CSS/AdminPets.css";
 
 function AdminPets() {
     const [pets, setPets] = useState([]);
@@ -18,6 +19,7 @@ function AdminPets() {
             setPets(response.data);
         } catch (error) {
             console.log("Get Pets Error:", error);
+
             alert("Failed to get pets");
         } finally {
             setLoading(false);
@@ -28,6 +30,7 @@ function AdminPets() {
         fetchPets();
     }, []);
 
+    // DELETE PET
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this pet?");
 
@@ -52,18 +55,17 @@ function AdminPets() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-
-        navigate("/login");
-    };
-
+    // LOADING
     if (loading) {
         return (
             <div className="admin-loading">
-                <div className="loading-spinner"></div>
-                <p>Loading pets...</p>
+                <Navbar role="admin" />
+
+                <div className="admin-loading-content">
+                    <div className="loading-spinner"></div>
+
+                    <p>Loading pets...</p>
+                </div>
             </div>
         );
     }
@@ -74,13 +76,13 @@ function AdminPets() {
             <Navbar role="admin" />
 
             {/* MAIN */}
-
             <main className="admin-pets-container">
-                {/* HEADER */}
-                <button className="back-to-pets" onClick={() => navigate("/admin/dashboard")}>
+                {/* BACK */}
+                <button className="back-to-dashboard" onClick={() => navigate("/admin/dashboard")}>
                     ← Back to Dashboard
                 </button>
 
+                {/* HEADER */}
                 <div className="admin-pets-header">
                     <div>
                         <p className="admin-section-label">ADMIN PANEL</p>
@@ -89,7 +91,7 @@ function AdminPets() {
                             Manage <span>Pets</span>
                         </h1>
 
-                        <p className="admin-section-description">Manage all pets available on the PawMatch platform.</p>
+                        <p className="admin-section-description">Manage all pets currently available on the PawMatch platform.</p>
                     </div>
 
                     <button className="add-pet-btn" onClick={() => navigate("/admin/pets/add")}>
@@ -98,8 +100,34 @@ function AdminPets() {
                     </button>
                 </div>
 
-                {/* PET LIST */}
+                {/* PET COUNT */}
+                <div className="pets-summary">
+                    <div>
+                        <strong>{pets.length}</strong>
 
+                        <span>Total Pets</span>
+                    </div>
+
+                    <div>
+                        <strong>{pets.filter((pet) => pet.adoptionStatus === "Available").length}</strong>
+
+                        <span>Available</span>
+                    </div>
+
+                    <div>
+                        <strong>{pets.filter((pet) => pet.adoptionStatus === "Pending").length}</strong>
+
+                        <span>Pending</span>
+                    </div>
+
+                    <div>
+                        <strong>{pets.filter((pet) => pet.adoptionStatus === "Adopted").length}</strong>
+
+                        <span>Adopted</span>
+                    </div>
+                </div>
+
+                {/* EMPTY */}
                 {pets.length === 0 ? (
                     <div className="no-admin-pets">
                         <div className="empty-icon">🐾</div>
@@ -113,11 +141,11 @@ function AdminPets() {
                         </button>
                     </div>
                 ) : (
+                    /* PET GRID */
                     <div className="admin-pets-grid">
                         {pets.map((pet) => (
                             <div className="admin-pet-card" key={pet._id}>
                                 {/* IMAGE */}
-
                                 <div className="admin-pet-image-wrapper">
                                     <img src={pet.image} alt={pet.name} className="admin-pet-image" />
 
@@ -125,16 +153,14 @@ function AdminPets() {
                                 </div>
 
                                 {/* INFO */}
-
                                 <div className="admin-pet-info">
-                                    <div className="admin-pet-title">
-                                        <div>
-                                            <h2>{pet.name}</h2>
+                                    <p className="admin-pet-label">PAWMATCH PET</p>
 
-                                            <p>{pet.breed}</p>
-                                        </div>
-                                    </div>
+                                    <h2>{pet.name}</h2>
 
+                                    <p className="admin-pet-breed">{pet.breed}</p>
+
+                                    {/* DETAILS */}
                                     <div className="admin-pet-details">
                                         <span>🐾 {pet.type}</span>
 
@@ -143,6 +169,7 @@ function AdminPets() {
                                         <span>⚧ {pet.gender}</span>
                                     </div>
 
+                                    {/* HEALTH */}
                                     <div className="admin-pet-health">
                                         <span>Health Status</span>
 
@@ -150,9 +177,8 @@ function AdminPets() {
                                     </div>
 
                                     {/* ACTIONS */}
-
                                     <div className="admin-pet-actions">
-                                        <button className="edit-pet-btn" onClick={() => navigate(`/admin/pets/edit/${pet._id}`)}>
+                                        <button className="edit-pet-btn" onClick={() => navigate(`/admin/edit-pet/${pet._id}`)}>
                                             ✏️ Edit
                                         </button>
 

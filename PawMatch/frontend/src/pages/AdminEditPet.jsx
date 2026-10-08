@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import Navbar from "../components/Navbar";
+import "../CSS/AdminAddPet.css";
 
 function AdminEditPet() {
     const { id } = useParams();
@@ -24,7 +25,7 @@ function AdminEditPet() {
 
     const token = localStorage.getItem("token");
 
-    // Get pet by ID
+    // GET PET BY ID
     const fetchPet = async () => {
         try {
             const response = await axios.get(`http://localhost:3000/pets/${id}`);
@@ -44,7 +45,9 @@ function AdminEditPet() {
             });
         } catch (error) {
             console.log("Get Pet Error:", error);
-            alert("Failed to get pet");
+
+            alert(error.response?.data?.message || "Failed to get pet");
+
             navigate("/admin/pets");
         } finally {
             setLoading(false);
@@ -55,6 +58,7 @@ function AdminEditPet() {
         fetchPet();
     }, [id]);
 
+    // HANDLE CHANGE
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -62,13 +66,13 @@ function AdminEditPet() {
         });
     };
 
-    // Update pet
+    // UPDATE PET
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setSaving(true);
-
         try {
+            setSaving(true);
+
             await axios.put(`http://localhost:3000/pets/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -87,16 +91,10 @@ function AdminEditPet() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-
-        navigate("/login");
-    };
-
+    // LOADING
     if (loading) {
         return (
-            <div className="admin-loading">
+            <div className="admin-users-loading">
                 <div className="loading-spinner"></div>
                 <p>Loading pet...</p>
             </div>
@@ -105,34 +103,30 @@ function AdminEditPet() {
 
     return (
         <div className="admin-add-pet-page">
-            {/* Navbar */}
             <Navbar role="admin" />
-            {/* Main */}
 
             <main className="admin-form-container">
-                {/* Back */}
-
+                {/* BACK BUTTON */}
                 <button className="back-to-pets" onClick={() => navigate("/admin/pets")}>
                     ← Back to Manage Pets
                 </button>
 
-                {/* Header */}
-
+                {/* HEADER */}
                 <div className="admin-form-header">
-                    <p>ADMIN PANEL</p>
+                    <p className="admin-section-label">ADMIN PANEL</p>
 
                     <h1>
                         Edit <span>Pet</span>
                     </h1>
 
-                    <span>Update the pet information on PawMatch.</span>
+                    <p>Update the pet information on PawMatch.</p>
                 </div>
 
-                {/* Form */}
-
+                {/* FORM */}
                 <form className="admin-pet-form" onSubmit={handleSubmit}>
+                    {/* SECTION TITLE */}
                     <div className="form-section-title">
-                        <span>✏️</span>
+                        <div className="form-section-icon">✏️</div>
 
                         <div>
                             <h2>Pet Information</h2>
@@ -141,8 +135,7 @@ function AdminEditPet() {
                         </div>
                     </div>
 
-                    {/* Name + Type */}
-
+                    {/* NAME + TYPE */}
                     <div className="form-row">
                         <div className="form-group">
                             <label>Pet Name</label>
@@ -157,8 +150,7 @@ function AdminEditPet() {
                         </div>
                     </div>
 
-                    {/* Breed + Gender */}
-
+                    {/* BREED + GENDER */}
                     <div className="form-row">
                         <div className="form-group">
                             <label>Breed</label>
@@ -177,8 +169,7 @@ function AdminEditPet() {
                         </div>
                     </div>
 
-                    {/* Age + Health */}
-
+                    {/* AGE + HEALTH */}
                     <div className="form-row">
                         <div className="form-group">
                             <label>Age</label>
@@ -199,8 +190,7 @@ function AdminEditPet() {
                         </div>
                     </div>
 
-                    {/* Adoption Status */}
-
+                    {/* ADOPTION STATUS */}
                     <div className="form-group">
                         <label>Adoption Status</label>
 
@@ -213,8 +203,7 @@ function AdminEditPet() {
                         </select>
                     </div>
 
-                    {/* Image */}
-
+                    {/* IMAGE */}
                     <div className="form-group">
                         <label>Image URL</label>
 
@@ -223,16 +212,14 @@ function AdminEditPet() {
                         <small>Use a direct URL to the pet image.</small>
                     </div>
 
-                    {/* Description */}
-
+                    {/* DESCRIPTION */}
                     <div className="form-group">
                         <label>Description</label>
 
                         <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Tell potential adopters about this pet..." rows="5" required />
                     </div>
 
-                    {/* Actions */}
-
+                    {/* ACTIONS */}
                     <div className="admin-form-actions">
                         <button type="button" className="cancel-pet-btn" onClick={() => navigate("/admin/pets")}>
                             Cancel

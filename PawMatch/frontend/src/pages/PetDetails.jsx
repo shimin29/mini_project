@@ -42,7 +42,7 @@ function PetDetails() {
 
             console.log("My Applications:", response.data);
 
-            // Find application for the current pet
+            // Find application for current pet
             const currentApplication = response.data.find((item) => {
                 const applicationPetId = typeof item.petId === "object" ? item.petId?._id : item.petId;
 
@@ -113,8 +113,8 @@ function PetDetails() {
             // Rejected application
             if (application.status === "Rejected") {
                 return (
-                    <button className="adopt-btn" onClick={() => navigate(`/adopt/${pet._id}`)}>
-                        🔄 Apply Again
+                    <button className="adopt-btn disabled" disabled>
+                        ❌ Application Rejected
                     </button>
                 );
             }
@@ -168,10 +168,8 @@ function PetDetails() {
 
     return (
         <div className="pet-details-page">
-            {/* Navbar */}
             <Navbar role="user" />
 
-            {/* Main Content */}
             <main className="pet-details-container">
                 {/* Back Button */}
                 <button className="back-pets-btn" onClick={() => navigate("/pet")}>
@@ -197,6 +195,11 @@ function PetDetails() {
 
                         {/* Basic Information */}
                         <div className="pet-info-grid">
+                            <div>
+                                <span>Pet ID</span>
+                                <strong>{pet._id}</strong>
+                            </div>
+
                             <div>
                                 <span>Type</span>
                                 <strong>{pet.type}</strong>
