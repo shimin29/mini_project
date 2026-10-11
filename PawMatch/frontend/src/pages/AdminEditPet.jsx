@@ -28,7 +28,7 @@ function AdminEditPet() {
     // GET PET BY ID
     const fetchPet = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/pets/${id}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/pets/${id}`);
 
             const pet = response.data;
 
@@ -73,7 +73,7 @@ function AdminEditPet() {
         try {
             setSaving(true);
 
-            await axios.put(`http://localhost:3000/pets/${id}`, formData, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/pets/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

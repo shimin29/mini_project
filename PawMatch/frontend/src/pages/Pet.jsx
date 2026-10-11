@@ -19,8 +19,7 @@ function Pet() {
     // Get all pets
     const fetchPets = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/pets");
-
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/pets`);
             console.log("Pets:", response.data);
 
             setPets(response.data);

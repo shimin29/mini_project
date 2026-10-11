@@ -14,7 +14,7 @@ function AdminPets() {
 
     const fetchPets = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/pets");
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/pets`);
 
             setPets(response.data);
         } catch (error) {
@@ -39,7 +39,7 @@ function AdminPets() {
         }
 
         try {
-            await axios.delete(`http://localhost:3000/pets/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/pets/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

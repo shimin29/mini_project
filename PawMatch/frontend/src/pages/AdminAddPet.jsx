@@ -38,7 +38,7 @@ function AdminAddPet() {
         try {
             setSubmitting(true);
 
-            await axios.post("http://localhost:3000/pets", formData, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/pets`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

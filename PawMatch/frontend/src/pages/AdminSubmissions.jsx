@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Navbar from "../components/Navbar";
-import "../CSS/AdminSubmissions.css"
+import "../CSS/AdminSubmissions.css";
 
 function AdminSubmissions() {
     const [submissions, setSubmissions] = useState([]);
@@ -14,7 +14,7 @@ function AdminSubmissions() {
 
     const fetchSubmissions = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/pet-submissions", {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/pet-submissions`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -45,7 +45,7 @@ function AdminSubmissions() {
 
         try {
             await axios.put(
-                `http://localhost:3000/pet-submissions/${id}/approve`,
+                `${import.meta.env.VITE_API_URL}/pet-submissions/${id}/approve`,
                 {},
                 {
                     headers: {

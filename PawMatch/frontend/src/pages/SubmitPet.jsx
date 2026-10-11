@@ -47,7 +47,7 @@ function SubmitPet() {
             setSubmitting(true);
 
             await axios.post(
-                "http://localhost:3000/pet-submissions",
+                `${import.meta.env.VITE_API_URL}/pet-submissions`,
                 {
                     ...formData,
                     age: Number(formData.age),

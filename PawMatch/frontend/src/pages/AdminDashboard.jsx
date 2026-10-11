@@ -25,13 +25,13 @@ function AdminDashboard() {
             };
 
             const [usersResponse, petsResponse, submissionsResponse, applicationsResponse] = await Promise.all([
-                axios.get("http://localhost:3000/users/count", { headers }),
+                axios.get(`${import.meta.env.VITE_API_URL}/users/count`, { headers }),
 
-                axios.get("http://localhost:3000/pets/count", { headers }),
+                axios.get(`${import.meta.env.VITE_API_URL}/pets/count`, { headers }),
 
-                axios.get("http://localhost:3000/pet-submissions/count", { headers }),
+                axios.get(`${import.meta.env.VITE_API_URL}/pet-submissions/count`, { headers }),
 
-                axios.get("http://localhost:3000/adoption-applications/count", { headers }),
+                axios.get(`${import.meta.env.VITE_API_URL}/adoption-applications/count`, { headers }),
             ]);
 
             setStats({

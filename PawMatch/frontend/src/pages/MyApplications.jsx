@@ -15,7 +15,7 @@ function MyApplications() {
         try {
             const token = localStorage.getItem("token");
 
-            const response = await axios.get("http://localhost:3000/adoption-applications/my", {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/adoption-applications/my`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

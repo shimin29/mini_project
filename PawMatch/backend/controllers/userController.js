@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET_KEY = "my_test_secret_key";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // REGISTER
 exports.register = async (req, res) => {
@@ -84,9 +84,9 @@ exports.login = async (req, res) => {
                 email: user.email,
                 role: user.role,
             },
-            JWT_SECRET_KEY,
+            JWT_SECRET,
             {
-                expiresIn: "24h",
+                expiresIn: process.env.JWT_EXPIRES_IN || "24h",
             },
         );
 
@@ -162,7 +162,6 @@ exports.deleteUser = async (req, res) => {
         });
     }
 };
-
 
 exports.getUserCount = async (req, res) => {
     try {

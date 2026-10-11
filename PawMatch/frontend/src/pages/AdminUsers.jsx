@@ -14,7 +14,7 @@ function AdminUsers() {
     // GET ALL USERS
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/users", {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -42,7 +42,7 @@ function AdminUsers() {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(`http://localhost:3000/users/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

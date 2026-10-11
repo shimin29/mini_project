@@ -18,7 +18,7 @@ function AdminApplications() {
         try {
             setLoading(true);
 
-            const response = await axios.get("http://localhost:3000/adoption-applications", {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/adoption-applications`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -66,7 +66,7 @@ function AdminApplications() {
             setProcessingId(id);
 
             await axios.put(
-                `http://localhost:3000/adoption-applications/${id}/approve`,
+                `${import.meta.env.VITE_API_URL}/adoption-applications/${id}/approve`,
                 {},
                 {
                     headers: {
@@ -97,7 +97,7 @@ function AdminApplications() {
             setProcessingId(id);
 
             await axios.put(
-                `http://localhost:3000/adoption-applications/${id}/reject`,
+                `${import.meta.env.VITE_API_URL}/adoption-applications/${id}/reject`,
                 {},
                 {
                     headers: {

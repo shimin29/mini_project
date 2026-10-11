@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
@@ -6,8 +7,6 @@ const userRoutes = require("./routes/userRoutes");
 const petRoutes = require("./routes/petRoutes");
 const petSubmissionRoutes = require("./routes/petSubmissionRoutes");
 const adoptionApplicationRoutes = require("./routes/adoptionApplicationRoutes");
-
-require("dotenv").config();
 
 const corsHandler = cors({
     origin: "*",
@@ -25,13 +24,13 @@ app.use("/pet-submissions", petSubmissionRoutes);
 app.use("/adoption-applications", adoptionApplicationRoutes);
 
 mongoose
-    .connect("mongodb://localhost:27017/pawmatch")
+    .connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("MongoDB Connected");
     })
     .catch((err) => console.log(err));
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);

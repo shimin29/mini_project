@@ -15,7 +15,7 @@ function PetDetails() {
     // Get pet details
     const fetchPet = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/pets/${id}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/pets/${id}`);
 
             console.log("Pet Details:", response.data);
 
@@ -34,7 +34,7 @@ function PetDetails() {
                 return;
             }
 
-            const response = await axios.get("http://localhost:3000/adoption-applications/my", {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/adoption-applications/my`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
