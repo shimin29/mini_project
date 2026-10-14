@@ -36,6 +36,7 @@ function AdminAddPet() {
         const token = localStorage.getItem("token");
 
         try {
+            //pending 中 submit的过程
             setSubmitting(true);
 
             await axios.post(`${import.meta.env.VITE_API_URL}/pets`, formData, {
@@ -180,6 +181,7 @@ function AdminAddPet() {
                             Cancel
                         </button>
 
+                        {/* 当submit已经成功了 button就会被禁用 */}
                         <button type="submit" className="save-pet-btn" disabled={submitting}>
                             {submitting ? "Adding Pet..." : "🐾 Add Pet"}
                         </button>

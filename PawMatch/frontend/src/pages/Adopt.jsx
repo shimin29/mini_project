@@ -13,15 +13,17 @@ function Adopt() {
     const [experience, setExperience] = useState("");
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    // 定义 submitting 状态，标识是否正在提交申请（防止用户重复点击提交按钮）
 
     // Get pet details
     const fetchPet = async () => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/pets/${petId}`);
-
+            // 根据 petId 发送 GET 请求获取指定宠物的详细信息
             console.log("Adoption Pet:", response.data);
 
             setPet(response.data);
+            // 保存宠物数据到 pet 状态
         } catch (error) {
             console.log("Get Pet Error:", error);
         } finally {
@@ -36,15 +38,17 @@ function Adopt() {
     // Submit adoption application
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // 阻止表单提交的默认刷新行为
 
         if (!reason.trim() || !experience.trim()) {
             alert("Please fill in all fields.");
             return;
         }
+        // 前端输入验证：去除两端空格后，如果原因或经验为空，跳出提示并终止提交
 
         try {
             setSubmitting(true);
-
+            // 开始提交，锁定按钮状态
             const token = localStorage.getItem("token");
 
             await axios.post(
@@ -153,9 +157,7 @@ function Adopt() {
                         </div>
                     </div>
 
-                    {/* ================================
-                        APPLICATION FORM
-                    ================================= */}
+                    {/*APPLICATION FORM */}
 
                     <form className="adoption-form" onSubmit={handleSubmit}>
                         <div className="form-heading">

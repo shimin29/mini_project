@@ -25,13 +25,13 @@ function PetDetails() {
         }
     };
 
-    // Get current user's application for this pet
+    // Get current user's application for this pet - 获取当前用户针对该宠物的申请记录
     const fetchApplication = async () => {
         try {
             const token = localStorage.getItem("token");
 
             if (!token) {
-                return;
+                return; // 如果未登录，直接跳出，不拉取申请
             }
 
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/adoption-applications/my`, {
@@ -42,7 +42,7 @@ function PetDetails() {
 
             console.log("My Applications:", response.data);
 
-            // Find application for current pet
+            // Find application for current pet// 在当前用户的所有申请中，查找对应这只宠物 (id) 的那一条申请
             const currentApplication = response.data.find((item) => {
                 const applicationPetId = typeof item.petId === "object" ? item.petId?._id : item.petId;
 
@@ -53,6 +53,7 @@ function PetDetails() {
             console.log("Current Application:", currentApplication);
 
             setApplication(currentApplication || null);
+            // 将匹配到的申请数据存入 application 状态
         } catch (error) {
             console.log("Get My Application Error:", error);
         }
@@ -68,7 +69,7 @@ function PetDetails() {
         };
 
         loadData();
-    }, [id]);
+    }, [id]);// 监听 id，如果路由 ID 发生改变，重新拉取数据
 
     // Adoption button
     const renderAdoptButton = () => {

@@ -6,9 +6,11 @@ import "../CSS/AdminApplications.css";
 
 function AdminApplications() {
     const navigate = useNavigate();
-
+    // 定义 applications 状态，用来保存从后端获取到的所有领养申请列表（默认为空数组）
     const [applications, setApplications] = useState([]);
+    // 定义 loading 状态，用来控制加载动画的显示（默认处于加载中 true）
     const [loading, setLoading] = useState(true);
+    // 定义 processingId 状态，记录当前正在被操作（批准/拒绝）的申请 ID，防止重复点击
     const [processingId, setProcessingId] = useState(null);
 
     const token = localStorage.getItem("token");
@@ -43,13 +45,16 @@ function AdminApplications() {
                 navigate("/admin/dashboard");
             }
         } finally {
+            // 无论成功还是失败，最后都将 loading 设置为 false（隐藏加载动画）
             setLoading(false);
         }
     };
 
     useEffect(() => {
+        //检查有没有token 然后执行指令 没有的话 跳回去login
         if (!token) {
             navigate("/login");
+            // 如果没有 Token，直接跳到login
             return;
         }
 
@@ -84,6 +89,7 @@ function AdminApplications() {
             alert(error.response?.data?.message || "Failed to approve application.");
         } finally {
             setProcessingId(null);
+            // 无论成功失败，重置 processingId，恢复按钮状态
         }
     };
 
@@ -192,6 +198,7 @@ function AdminApplications() {
 
                 {/* EMPTY */}
                 {applications.length === 0 ? (
+                    //如果申请列表长度为 0（没有申请）
                     <div className="empty-applications">
                         <div className="empty-icon">🐾</div>
 
@@ -203,8 +210,11 @@ function AdminApplications() {
                     /* APPLICATION LIST */
                     <div className="applications-list">
                         {applications.map((application) => {
+                            // .map 循环get data 然后显示每一个申请卡片
                             const pet = application.petId;
+                            // 提取申请绑定的宠物数据
                             const applicant = application.applicantId;
+                            // 提取申请人的数据
 
                             return (
                                 <div className="application-card" key={application._id}>
@@ -265,7 +275,7 @@ function AdminApplications() {
                                     {/* STATUS / ACTION */}
                                     <div className="application-actions">
                                         <span className={`status-badge ${application.status === "Approved" ? "approved" : application.status === "Rejected" ? "rejected" : "pending"}`}>{application.status}</span>
-
+                                        {/* 如果状态是 Pending（待处理），显示操作按钮 */}
                                         {application.status === "Pending" && (
                                             <div className="action-buttons">
                                                 <button className="approve-btn" onClick={() => handleApprove(application._id)} disabled={processingId === application._id}>
@@ -277,9 +287,9 @@ function AdminApplications() {
                                                 </button>
                                             </div>
                                         )}
-
+                                        {/* 如果已被批准，显示已批准提示 */}
                                         {application.status === "Approved" && <div className="decision-message approved-message">✓ Application approved</div>}
-
+                                        {/* 如果已被拒绝，显示已拒绝提示 */}
                                         {application.status === "Rejected" && <div className="decision-message rejected-message">✕ Application rejected</div>}
                                     </div>
                                 </div>

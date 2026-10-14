@@ -32,22 +32,24 @@ function AdminPets() {
 
     // DELETE PET
     const handleDelete = async (id) => {
+        // 接收要删除的宠物 ID
         const confirmDelete = window.confirm("Are you sure you want to delete this pet?");
-
+        // 弹出浏览器二次确认框
         if (!confirmDelete) {
             return;
-        }
+        } // 如果用户点击取消，终止函数
 
         try {
             await axios.delete(`${import.meta.env.VITE_API_URL}/pets/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-            });
+            }); // 发送 DELETE 请求删除指定 ID 的宠物，并在 Headers 中带上 Authorization Token
 
             alert("Pet deleted successfully");
 
             fetchPets();
+            // 重新刷新宠物列表
         } catch (error) {
             console.log("Delete Pet Error:", error);
 
@@ -103,6 +105,7 @@ function AdminPets() {
                 {/* PET COUNT */}
                 <div className="pets-summary">
                     <div>
+                        {/* 宠物总数 */}
                         <strong>{pets.length}</strong>
 
                         <span>Total Pets</span>
@@ -110,25 +113,26 @@ function AdminPets() {
 
                     <div>
                         <strong>{pets.filter((pet) => pet.adoptionStatus === "Available").length}</strong>
-
+                        {/* 待领养 (Available) 的宠物数量 */}
                         <span>Available</span>
                     </div>
 
                     <div>
                         <strong>{pets.filter((pet) => pet.adoptionStatus === "Pending").length}</strong>
-
+                        {/* 领养处理中 (Pending) 的宠物数量 */}
                         <span>Pending</span>
                     </div>
 
                     <div>
                         <strong>{pets.filter((pet) => pet.adoptionStatus === "Adopted").length}</strong>
-
+                        {/* 已被领养 (Adopted) 的宠物数量 */}
                         <span>Adopted</span>
                     </div>
                 </div>
 
                 {/* EMPTY */}
                 {pets.length === 0 ? (
+                    // 如果没有动物就自动显示0
                     <div className="no-admin-pets">
                         <div className="empty-icon">🐾</div>
 
@@ -178,6 +182,7 @@ function AdminPets() {
 
                                     {/* ACTIONS */}
                                     <div className="admin-pet-actions">
+                                        {/* 跳转到该宠物的编辑页面 */}
                                         <button className="edit-pet-btn" onClick={() => navigate(`/admin/edit-pet/${pet._id}`)}>
                                             ✏️ Edit
                                         </button>

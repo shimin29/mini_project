@@ -8,9 +8,10 @@ function Pet() {
     const navigate = useNavigate();
 
     const [pets, setPets] = useState([]);
+    // 存储所有宠物数据
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    // 筛选与搜索状态
     const [search, setSearch] = useState("");
     const [typeFilter, setTypeFilter] = useState("All");
     const [genderFilter, setGenderFilter] = useState("All");
@@ -35,7 +36,7 @@ function Pet() {
 
             if (!token) {
                 return;
-            }
+            } // 未登录则不发送请求
 
             const response = await axios.get("http://localhost:3000/adoption-applications/my", {
                 headers: {
@@ -51,7 +52,7 @@ function Pet() {
         }
     };
 
-    // Load pets + applications
+    // Load pets + applications - 使用 Promise.all 并发请求
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
@@ -64,21 +65,22 @@ function Pet() {
         loadData();
     }, []);
 
-    // Get application for current pet
+    // Get application for current pet - 查找当前用户是否对特定宠物提交过申请
     const getPetApplication = (petId) => {
         return applications.find((application) => {
+            // 兼容 petId 是对象（Populated）或纯 ID 字符串的情况
             const applicationPetId = typeof application.petId === "object" ? application.petId?._id : application.petId;
 
             return applicationPetId === petId;
         });
     };
 
-    // Get application status text
+    // Get application status text - 获取卡片上显示的申请状态文字与图标
     const getApplicationStatus = (pet) => {
         // Pet already adopted
         if (pet.adoptionStatus === "Adopted") {
             return "🏠 Already Adopted";
-        }
+        } // 已经被其他人领养
 
         // Find user's application
         const application = getPetApplication(pet._id);
@@ -86,22 +88,22 @@ function Pet() {
         // No application
         if (!application) {
             return "❤️ Not Applied";
-        }
+        } // 用户未申请过此宠物
 
         // Pending
         if (application.status === "Pending") {
             return "⏳ Application Pending";
-        }
+        } // 申请审核中
 
         // Approved
         if (application.status === "Approved") {
             return "✅ Application Approved";
-        }
+        } // 申请已通过
 
         // Rejected
         if (application.status === "Rejected") {
             return "❌ Application Rejected";
-        }
+        } // 申请已被拒绝
 
         return "❤️ Not Applied";
     };
@@ -136,19 +138,19 @@ function Pet() {
     // Search + Filter
     const filteredPets = pets.filter((pet) => {
         const searchText = search.toLowerCase();
-
+        // 匹配搜索框（名字、品种或类型）
         const matchesSearch = pet.name.toLowerCase().includes(searchText) || pet.breed.toLowerCase().includes(searchText) || pet.type.toLowerCase().includes(searchText);
-
+        // 匹配类型下拉菜单
         const matchesType = typeFilter === "All" || pet.type.toLowerCase() === typeFilter.toLowerCase();
-
+        // 匹配性别下拉菜单
         const matchesGender = genderFilter === "All" || pet.gender === genderFilter;
-
+        // 匹配领养状态下拉菜单
         const matchesStatus = statusFilter === "All" || pet.adoptionStatus === statusFilter;
-
+        // 必须同时满足上述 4 个条件
         return matchesSearch && matchesType && matchesGender && matchesStatus;
     });
 
-    // Get unique pet types
+    // Get unique pet types - 动态提取数据库中所有宠物不重复的类型（如 Dog, Cat, Rabbit），用于下拉框菜单
     const petTypes = ["All", ...new Set(pets.map((pet) => pet.type))];
 
     return (

@@ -35,8 +35,8 @@ function AdminSubmissions() {
     }, []);
 
     // APPROVE
-
     const handleApprove = async (id) => {
+        // 接收要批准的送养申请 ID
         const confirmApprove = window.confirm("Are you sure you want to approve this pet submission?");
 
         if (!confirmApprove) {
@@ -83,6 +83,7 @@ function AdminSubmissions() {
                     },
                 },
             );
+            // 向后端发送 PUT 请求拒绝申请
 
             alert("Pet submission rejected!");
 
@@ -132,7 +133,7 @@ function AdminSubmissions() {
                 </div>
 
                 {/* EMPTY */}
-
+                {/* 如果没有申请就是立马执行显示 0  */}
                 {submissions.length === 0 ? (
                     <div className="no-admin-pets">
                         <div className="empty-icon">🐾</div>

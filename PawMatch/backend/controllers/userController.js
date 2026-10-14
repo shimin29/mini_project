@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
             return res.status(400).json({
                 message: "Name, email and password are required",
             });
-        }
+        } // 如果缺少任意一项，返回 400（错误请求）
 
         // Check if email already exists
         const existingUser = await User.findOne({ email });
@@ -22,14 +22,14 @@ exports.register = async (req, res) => {
             return res.status(409).json({
                 message: "Email already exists",
             });
-        }
+        } // 如果邮箱已被使用，返回 409（资源冲突
 
         // Create new user
         const user = new User({
             name,
             email,
             password,
-            role: "user",
+            role: "user", // 新注册用户默认角色为普通用户 "user"
         });
 
         await user.save();
@@ -59,22 +59,21 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Find user
+        // Find user - 根据邮箱查找用户
         const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(401).json({
                 message: "Invalid email or password",
             });
-        }
+        } // 查无此人，返回 401（未授权）
 
-        // Compare password
+        // Compare password - 校验密码
         const isMatch = user.comparePassword(password);
-
         if (!isMatch) {
             return res.status(401).json({
                 message: "Invalid email or password",
-            });
+            }); // 密码不匹配，同样返回 401（故意提示同样的错误信息，防止恶意枚举邮箱）
         }
 
         // Create JWT
@@ -89,7 +88,7 @@ exports.login = async (req, res) => {
                 expiresIn: process.env.JWT_EXPIRES_IN || "24h",
             },
         );
-
+        // 返回成功响应，带上 Token 和用户简要信息（供前端保存到 localStorage）
         res.status(200).json({
             message: "Login successful",
             token,
@@ -110,10 +109,7 @@ exports.login = async (req, res) => {
     }
 };
 
-// =========================
 // GET ALL USERS
-// =========================
-
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find({}).select("-password").sort({ createdAt: -1 });
@@ -128,10 +124,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-// =========================
 // DELETE USER
-// =========================
-
 exports.deleteUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -142,11 +135,11 @@ exports.deleteUser = async (req, res) => {
             });
         }
 
-        // Prevent deleting another admin
+        // Prevent deleting another admin - 权限保护规则
         if (user.role === "admin") {
             return res.status(403).json({
                 message: "Admin users cannot be deleted",
-            });
+            }); // 拒绝删除管理员账号，返回 403
         }
 
         await User.findByIdAndDelete(req.params.id);
@@ -163,10 +156,11 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
+// GET USER COUNT - 统计用户总数（供 Admin Dashboard 仪表盘使用）
 exports.getUserCount = async (req, res) => {
     try {
         const count = await User.countDocuments();
-
+        // 计算 users 集合中的记录总条数
         res.status(200).json({
             count,
         });

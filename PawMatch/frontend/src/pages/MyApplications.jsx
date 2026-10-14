@@ -20,7 +20,7 @@ function MyApplications() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+            // 请求专属 API（/my），向后端拉取仅属于“当前用户”的领养申请列表，并在 Headers 中带上 Token
             console.log("My Applications:", response.data);
 
             setApplications(response.data);
@@ -47,6 +47,7 @@ function MyApplications() {
 
         return "status-pending";
     };
+    // 根据输入的 status（"Approved" / "Rejected" / 其他）返回对应的 CSS 类名，方便为不同状态涂上不同颜色（如绿色、红色、黄色）
 
     // Loading
     if (loading) {
@@ -70,9 +71,7 @@ function MyApplications() {
             <Navbar role="user" />
 
             <main className="my-applications-container">
-                {/* ================================
-                    PAGE HEADER
-                ================================= */}
+                {/*PAGE HEADER*/}
 
                 <div className="applications-header">
                     <p className="section-small-title">MY APPLICATIONS</p>
@@ -87,6 +86,7 @@ function MyApplications() {
                 ================================= */}
 
                 {applications.length === 0 ? (
+                    // 如果数组长度为 0（用户还没申请过任何宠物），显示提示框引导去浏览宠物
                     <div className="no-applications">
                         <div className="no-applications-icon">🐾</div>
 
@@ -99,9 +99,7 @@ function MyApplications() {
                         </button>
                     </div>
                 ) : (
-                    /* ================================
-                       APPLICATION LIST
-                    ================================= */
+                    /* APPLICATION LIST */
 
                     <div className="applications-list">
                         {applications.map((application) => (
@@ -129,12 +127,12 @@ function MyApplications() {
                                         </div>
 
                                         {/* STATUS */}
-
+                                        {/* STATUS - 动态绑定 getStatusClass 生成的样式类名（如 status-approved） */}
                                         <span className={`application-status ${getStatusClass(application.status)}`}>{application.status}</span>
                                     </div>
 
                                     {/* PET DETAILS */}
-
+                                    {/* 读save在backend的data 如果没有就显示unknown了 */}
                                     <div className="application-pet-details">
                                         <span>🐾 {application.petId?.type || "Unknown"}</span>
 
@@ -162,6 +160,7 @@ function MyApplications() {
                                     {/* DATE */}
 
                                     <div className="application-date">Applied on {new Date(application.createdAt).toLocaleDateString("en-GB")}</div>
+                                    
                                 </div>
                             </div>
                         ))}

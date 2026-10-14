@@ -7,6 +7,7 @@ import "../CSS/AdminDashboard.css";
 function AdminDashboard() {
     const navigate = useNavigate();
 
+    // 定义 stats 状态，用来存储 4 项核心统计数据，默认全为 0
     const [stats, setStats] = useState({
         users: 0,
         pets: 0,
@@ -14,8 +15,10 @@ function AdminDashboard() {
         applications: 0,
     });
 
+    // 定义 loading 状态，用来表示数据是否正在加载（默认 true）
     const [loading, setLoading] = useState(true);
 
+    //get token
     const token = localStorage.getItem("token");
 
     const fetchStats = async () => {
@@ -33,6 +36,7 @@ function AdminDashboard() {
 
                 axios.get(`${import.meta.env.VITE_API_URL}/adoption-applications/count`, { headers }),
             ]);
+            // 使用 Promise.all 同时并行发送 4 个请求（用户总数、宠物总数、待审核宠物提交数、待审核领养申请数），提高加载速度
 
             setStats({
                 users: usersResponse.data.count,
@@ -40,12 +44,14 @@ function AdminDashboard() {
                 submissions: submissionsResponse.data.count,
                 applications: applicationsResponse.data.count,
             });
+            // 当 4 个请求全部成功后，更新 stats 状态
         } catch (error) {
             console.log("Get Dashboard Stats Error:", error);
 
             alert(error.response?.data?.message || "Failed to load dashboard statistics");
         } finally {
             setLoading(false);
+            // 无论成功或失败，结束加载状态（将 loading 设置为 false）
         }
     };
 
@@ -53,6 +59,7 @@ function AdminDashboard() {
         fetchStats();
     }, []);
 
+    // 登出函数：清除本地存储的 token 和 role，然后跳转回登录页面
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
@@ -85,6 +92,7 @@ function AdminDashboard() {
                             <p>Total Users</p>
 
                             <h2>{loading ? "..." : stats.users}</h2>
+                            {/* 如果正在加载，显示 "..."；加载完成显示具体数字 */}
                         </div>
                     </div>
 
@@ -96,6 +104,7 @@ function AdminDashboard() {
                             <p>Total Pets</p>
 
                             <h2>{loading ? "..." : stats.pets}</h2>
+
                         </div>
                     </div>
 

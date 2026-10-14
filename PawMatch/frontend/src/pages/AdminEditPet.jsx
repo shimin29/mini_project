@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
+// 导入 useParams（获取 URL 路径里的宠物 ID）和 useNavigate（页面跳转）
 import Navbar from "../components/Navbar";
 import "../CSS/AdminAddPet.css";
 
 function AdminEditPet() {
     const { id } = useParams();
+    // 从路由 URL 参数中提取宠物的 ID（例如：/admin/pets/edit/12345 中的 12345）
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -22,6 +24,7 @@ function AdminEditPet() {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    // 定义 saving 状态，表示是否正在提交保存修改（默认 false，防止重复点击保存）
 
     const token = localStorage.getItem("token");
 
@@ -43,6 +46,7 @@ function AdminEditPet() {
                 image: pet.image || "",
                 description: pet.description || "",
             });
+            // 将获取到的宠物数据更新填充到 formData 中（防止 null 值造成受控组件报错，用了 || 默认值）
         } catch (error) {
             console.log("Get Pet Error:", error);
 
@@ -54,6 +58,7 @@ function AdminEditPet() {
         }
     };
 
+    //  数据改变时，自动调用 fetchPet 获取宠物信息
     useEffect(() => {
         fetchPet();
     }, [id]);
@@ -72,7 +77,7 @@ function AdminEditPet() {
 
         try {
             setSaving(true);
-
+            // 开始保存，设置 saving 状态为 true（按钮显示 Saving... 并禁用）
             await axios.put(`${import.meta.env.VITE_API_URL}/pets/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -225,6 +230,7 @@ function AdminEditPet() {
                             Cancel
                         </button>
 
+                        {/* 如果正在保存，显示 Saving... 并禁用按钮 */}
                         <button type="submit" className="save-pet-btn" disabled={saving}>
                             {saving ? "Saving..." : "✓ Save Changes"}
                         </button>
