@@ -11,7 +11,7 @@ const UserSchema = mongoose.Schema(
         email: {
             type: String,
             required: true,
-            unique: true,
+            unique: true, //这个是不会有重复的email
             lowercase: true,
             trim: true,
         },
@@ -34,10 +34,10 @@ const UserSchema = mongoose.Schema(
 
 UserSchema.pre("save", function (next) {
     if (!this.isModified("password")) {
-        return next;
+        return next();
     }
     this.password = bcrypt.hashSync(this.password, 10);
-    next;
+    next();
 });
 UserSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
