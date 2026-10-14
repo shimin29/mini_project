@@ -31,7 +31,7 @@ exports.register = async (req, res) => {
             password,
             role: "user", // 新注册用户默认角色为普通用户 "user"
         });
-
+        console.log(user);
         await user.save();
 
         res.status(201).json({
@@ -39,7 +39,6 @@ exports.register = async (req, res) => {
         });
     } catch (error) {
         console.error("Register Error:", error);
-
         res.status(500).json({
             message: "Registration failed",
             error: error.message,
