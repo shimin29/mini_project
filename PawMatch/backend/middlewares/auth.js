@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // AUTHENTICATE USER
 exports.authenticate = async (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
+        const authHeader = req.headers.authorization; //获取 Token Header
 
         if (!authHeader) {
             return res.status(401).json({
@@ -14,9 +14,15 @@ exports.authenticate = async (req, res, next) => {
             });
         }
 
-        const token = authHeader.split(" ")[1];
+        const token = authHeader.split(" ")[1]; //把 Authorization 拆开，取得 Token。
 
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET); ///验证 Token 是否有效，并解码其中保存的资料
+        //jwt.verify()：验证 Token 的签名和有效期限。
+        // token：前端传过来的 Token。
+        // JWT_SECRET：Backend 用来验证 Token 的密钥。
+        // decoded：保存验证成功后解码出来的资料。
+        //res.status 401 返回身份验证失败
+        //try...catch	捕捉运行过程中的错误
 
         const user = await User.findOne({
             email: decoded.email,

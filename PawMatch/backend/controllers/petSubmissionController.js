@@ -61,7 +61,7 @@ exports.approvePetSubmission = async (req, res) => {
     try {
         console.log("Approve ID:", req.params.id);
 
-        const submission = await PetSubmission.findById(req.params.id);
+        const submission = await PetSubmission.findById(req.params.id);  
 
         console.log("Submission:", submission);
 
@@ -83,7 +83,7 @@ exports.approvePetSubmission = async (req, res) => {
             breed: submission.breed,
             gender: submission.gender,
             age: submission.age,
-            healthStatus: submission.healthStatus,
+            healthStatus: submission.healthStatus, 
             adoptionStatus: "Available",
             image: submission.image,
             description: submission.description,

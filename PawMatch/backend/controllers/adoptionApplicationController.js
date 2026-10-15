@@ -109,7 +109,7 @@ exports.approveAdoptionApplication = async (req, res) => {
             });
         }
 
-        if (application.status !== "Pending") {
+        if (application.status !== "Pending") { 
             return res.status(400).json({
                 message: "This application has already been reviewed",
             });

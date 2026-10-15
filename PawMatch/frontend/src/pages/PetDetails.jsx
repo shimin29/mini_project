@@ -69,7 +69,7 @@ function PetDetails() {
         };
 
         loadData();
-    }, [id]);// 监听 id，如果路由 ID 发生改变，重新拉取数据
+    }, [id]); // 监听 id，如果路由 ID 发生改变，重新拉取数据
 
     // Adoption button
     const renderAdoptButton = () => {
